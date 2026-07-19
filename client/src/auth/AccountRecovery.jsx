@@ -1,4 +1,34 @@
+// Dependencies
+import { useState } from "react";
+
+// Supabase config
+import supabase from '../supabaseConfig'
+
 function AccountRecovery(){
+
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: "http://localhost:5173/update-password", // Change to your frontend URL
+        });
+
+        if (error) {
+            alert(error.message);
+            setLoading(false);
+            return;
+        }
+
+        alert("Password reset link has been sent to your email.");
+
+        setLoading(false);
+    };
+
     return(
         <div>
             {/* Account Recovery Section */}
@@ -22,26 +52,30 @@ function AccountRecovery(){
                 </p>
 
                 {/* Form */}
-                <form className="mt-8 space-y-5">
+                <form onSubmit={handleSubmit} className="mt-8 space-y-5">
 
-                <div>
-                    <label className="mb-2 block text-sm font-medium text-[#CBD5E1]">
-                    Email Address
-                    </label>
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-[#CBD5E1]">
+                            Email Address
+                        </label>
 
-                    <input
-                    type="email"
-                    placeholder="john@example.com"
-                    className="w-full rounded-xl border border-[#1B2B45] bg-[#0B1220] px-4 py-3 text-white placeholder:text-[#64748B] outline-none transition focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20"
-                    />
-                </div>
+                        <input
+                            type="email"
+                            placeholder="john@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="w-full rounded-xl border border-[#1B2B45] bg-[#0B1220] px-4 py-3 text-white placeholder:text-[#64748B] outline-none transition focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20"
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className="w-full rounded-xl bg-[#3B82F6] py-3 font-semibold text-white transition hover:bg-[#2563EB] active:scale-[0.98]"
-                >
-                    Send Reset Link
-                </button>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full rounded-xl bg-[#3B82F6] py-3 font-semibold text-white transition hover:bg-[#2563EB] active:scale-[0.98] disabled:opacity-50"
+                    >
+                        {loading ? "Sending..." : "Send Reset Link"}
+                    </button>
 
                 </form>
 

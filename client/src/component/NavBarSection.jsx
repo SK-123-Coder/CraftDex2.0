@@ -1,11 +1,14 @@
 // Dependecies
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
+
 
 // Icons
 import { FaUser, FaCog } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+
+import { AuthContext } from './AuthProvider'
 
 function NavBarSection({ onShowChange }){
 
@@ -82,11 +85,16 @@ function NavBarSection({ onShowChange }){
         };
     }, []);
 
+    // ===================================================================================================================
+
+    const session = useContext(AuthContext);
+
+
     return(
         <nav className={`fixed top-0 w-full border-b border-[#3e4858] backdrop-blur-xl transition-transform duration-400 z-50 ${show ? "translate-y-0" : "-translate-y-full"}`}>
 
             {/* Top section */}
-            <div className="max-w-7xl mx-auto flex items-center justify-between px-2 py-1 md:py-2">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-4 py-1 md:py-4">
 
                 <div className="flex justify-center items-center gap-3">
 
@@ -107,7 +115,7 @@ function NavBarSection({ onShowChange }){
                     {/* Logo */}
                     <Link
                         to="/"
-                        className="text-lg md:text-xl font-bold text-[#F8FAFC] hover:text-[#3B82F6] flex items-center justify-center"
+                        className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text font-bold text-transparent text-lg md:text-xl  flex justify-center items-center"
                     >
                         CraftDex
                     </Link>
@@ -202,155 +210,168 @@ function NavBarSection({ onShowChange }){
                 </ul>
 
                 {/* Desktop Right Section */}
-                <div className="hidden md:flex items-center gap-4">
+                <div className="md:flex items-center gap-4">
 
-                    <div ref={dropdownRef} className="hidden relative group">
-                        {/* Profile Button */}
-                        <button
-                            onClick={() => setIsOpen((prev) => !prev)}
-                            className="w-10 h-10 flex items-center justify-center rounded-full
-                                    bg-[#101B30]
-                                    border border-[#1B2B45]
-                                    text-slate-300
-                                    hover:bg-[#16233D]
-                                    hover:text-white
-                                    transition-all duration-200"
-                        >
-                            <FaUser className="text-sm" />
-                        </button>
+                    {session ? (
+                        <div ref={dropdownRef} className="hidden md:block urelative group">
+                            {/* Profile Button */}
+                            <button
+                                onClick={() => setIsOpen((prev) => !prev)}
+                                className="w-10 h-10 flex items-center justify-center rounded-full
+                                        bg-[#101B30]
+                                        border border-[#1B2B45]
+                                        text-slate-300
+                                        hover:bg-[#16233D]
+                                        hover:text-white
+                                        transition-all duration-200"
+                            >
+                                <FaUser className="text-sm" />
+                            </button>
 
-                        {/* Dropdown */}
-                        <div
-                            className={`
-                                absolute right-0 mt-2 w-64
-                                rounded-xl border border-[#1B2B45]
-                                bg-[#101B30] shadow-xl z-50
-                                transition-all duration-200
+                            {/* Dropdown */}
+                            <div
+                                className={`
+                                    absolute right-0 mt-2 w-64
+                                    rounded-xl border border-[#1B2B45]
+                                    bg-[#101B30] shadow-xl z-50
+                                    transition-all duration-200
 
-                                ${
-                                    isOpen
-                                        ? "opacity-100 visible translate-y-0"
-                                        : "opacity-0 invisible -translate-y-2"
-                                }
+                                    ${
+                                        isOpen
+                                            ? "opacity-100 visible translate-y-0"
+                                            : "opacity-0 invisible -translate-y-2"
+                                    }
 
-                                md:group-hover:opacity-100
-                                md:group-hover:visible
-                                md:group-hover:translate-y-0
-                            `}
-                        >
-                            {/* User Info */}
-                            <div className="p-4 border-b border-[#1B2B45]">
-                                <h3 className="text-white font-semibold">
-                                    John Doe
-                                </h3>
-                                <p className="text-sm text-slate-400">
-                                    john@example.com
-                                </p>
-                            </div>
+                                    md:group-hover:opacity-100
+                                    md:group-hover:visible
+                                    md:group-hover:translate-y-0
+                                `}
+                            >
+                                {/* User Info */}
+                                <div className="p-4 border-b border-[#1B2B45]">
+                                    <h3 className="text-white font-semibold text-base sm:text-lg truncate">
+                                        {session?.user?.user_metadata?.name ||
+                                        session?.user?.user_metadata?.username ||
+                                        "User"}
+                                    </h3>
 
-                            {/* Menu */}
-                            <div className="py-2">
-                                <Link
-                                    to="/setting"
-                                    onClick={() => setIsOpen(false)}
-                                    className="flex items-center gap-3 px-4 py-2
-                                            text-slate-300 hover:bg-[#16233D]
-                                            hover:text-white transition"
-                                >
-                                    <FaCog className="text-lg" />
-                                    <span>Settings</span>
-                                </Link>
+                                    <p className="text-slate-400 text-xs sm:text-sm truncate">
+                                        {session?.user?.email}
+                                    </p>
+                                </div>
+
+                                {/* Menu */}
+                                <div className="py-2">
+                                    <Link
+                                        to="/setting"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-3 px-4 py-2
+                                                text-slate-300 hover:bg-[#16233D]
+                                                hover:text-white transition"
+                                    >
+                                        <FaCog className="text-lg" />
+                                        <span>Settings</span>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="flex gap-2 hidden md:block">
+                            {/* Login */}
+                            <Link
+                            to='/login'
+                            className="px-5 py-2 rounded-full bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors duration-200 cursor-pointer"
+                            >
+                            Login
+                            </Link>
 
-                    <div className="flex gap-2 ">
-                        {/* Login */}
-                        <Link
-                        to='/login'
-                        className="px-5 py-2 rounded-full bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors duration-200 cursor-pointer"
-                        >
-                        Login
-                        </Link>
+                            {/* Sign Up */}
+                            <Link
+                            to='/signup'
+                            className="px-5 py-2 rounded-full border border-[#1B2B45] bg-transparent text-[#CBD5E1] font-semibold hover:bg-[#101B30] hover:text-[#F8FAFC]transition-colors duration-200 cursor-pointer"
+                            >
+                                Sign Up
+                            </Link>
+                        </div>
+                    )}
 
-                        {/* Sign Up */}
-                        <Link
-                        to='/signup'
-                        className="px-5 py-2 rounded-full border border-[#1B2B45] bg-transparent text-[#CBD5E1] font-semibold hover:bg-[#101B30] hover:text-[#F8FAFC]transition-colors duration-200 cursor-pointer"
-                        >
-                            Sign Up
-                        </Link>
-                    </div>
                 </div>
 
                 {/* Mobile auth button */}
                 <div className="md:hidden">
-                    <Link
-                        to='/login'
-                        className="hidden not-visited:py-2 rounded-full bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors px-5"
-                    >
-                    Login
-                    </Link>
 
-                    <div ref={dropdownRef} className="relative group">
-                        {/* Profile Button */}
-                        <button
-                            onClick={() => setIsOpen((prev) => !prev)}
-                            className="w-10 h-10 flex items-center justify-center rounded-full
-                                    bg-[#101B30]
-                                    border border-[#1B2B45]
-                                    text-slate-300
-                                    hover:bg-[#16233D]
-                                    hover:text-white
-                                    transition-all duration-200"
-                        >
-                            <FaUser className="text-sm" />
-                        </button>
+                    {session ? (
+                        <div ref={dropdownRef} className="md:hidden urelative group">
+                            {/* Profile Button */}
+                            <button
+                                onClick={() => setIsOpen((prev) => !prev)}
+                                className="w-10 h-10 flex items-center justify-center rounded-full
+                                        bg-[#101B30]
+                                        border border-[#1B2B45]
+                                        text-slate-300
+                                        hover:bg-[#16233D]
+                                        hover:text-white
+                                        transition-all duration-200"
+                            >
+                                <FaUser className="text-sm" />
+                            </button>
 
-                        {/* Dropdown */}
-                        <div
-                            className={`
-                                absolute right-0 mt-2 w-64
-                                rounded-xl border border-[#1B2B45]
-                                bg-[#101B30] shadow-xl z-50
-                                transition-all duration-200
+                            {/* Dropdown */}
+                            <div
+                                className={`
+                                    absolute right-0 mt-2 w-64
+                                    rounded-xl border border-[#1B2B45]
+                                    bg-[#101B30] shadow-xl z-50
+                                    transition-all duration-200
 
-                                ${
-                                    isOpen
-                                        ? "opacity-100 visible translate-y-0"
-                                        : "opacity-0 invisible -translate-y-2"
-                                }
+                                    ${
+                                        isOpen
+                                            ? "opacity-100 visible translate-y-0"
+                                            : "opacity-0 invisible -translate-y-2"
+                                    }
 
-                                md:group-hover:opacity-100
-                                md:group-hover:visible
-                                md:group-hover:translate-y-0
-                            `}
-                        >
-                            {/* User Info */}
-                            <div className="p-4 border-b border-[#1B2B45]">
-                                <h3 className="text-white font-semibold">
-                                    John Doe
-                                </h3>
-                                <p className="text-sm text-slate-400">
-                                    john@example.com
-                                </p>
-                            </div>
+                                    md:group-hover:opacity-100
+                                    md:group-hover:visible
+                                    md:group-hover:translate-y-0
+                                `}
+                            >
+                                {/* User Info */}
+                                <div className="p-4 border-b border-[#1B2B45]">
+                                    <h3 className="text-white font-semibold text-base sm:text-lg truncate">
+                                        {session?.user?.user_metadata?.name ||
+                                        session?.user?.user_metadata?.username ||
+                                        "User"}
+                                    </h3>
 
-                            {/* Menu */}
-                            <div className="py-2">
-                                <Link
-                                    to="/setting"
-                                    onClick={() => setIsOpen(false)}
-                                    className="flex items-center gap-3 px-4 py-2
-                                            text-slate-300 hover:bg-[#16233D]
-                                            hover:text-white transition"
-                                >
-                                    <FaCog className="text-lg" />
-                                    <span>Settings</span>
-                                </Link>
+                                    <p className="text-slate-400 text-xs sm:text-sm truncate">
+                                        {session?.user?.email}
+                                    </p>
+                                </div>
+
+                                {/* Menu */}
+                                <div className="py-2">
+                                    <Link
+                                        to="/setting"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-3 px-4 py-2
+                                                text-slate-300 hover:bg-[#16233D]
+                                                hover:text-white transition"
+                                    >
+                                        <FaCog className="text-lg" />
+                                        <span>Settings</span>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <Link
+                            to='/login'
+                            className="not-visited:py-2 rounded-full bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors px-5"
+                        >
+                        Login
+                        </Link>
+                    )}
+
                 </div>
 
             </div>
@@ -414,27 +435,29 @@ function NavBarSection({ onShowChange }){
 
                     </div>
 
-                    {/* Divider */}
-                    <div className="my-6 border-t border-[#3e4858]" />
+                    {!session && (
+                        <div>
+                            {/* Divider */}
+                            <div className="my-6 border-t border-[#3e4858]" />
 
-                    {/* Auth Buttons */}
-                    <div className="flex flex-col gap-3">
+                            {/* Auth Buttons */}
+                            <div className="flex flex-col gap-3">
+                                <Link
+                                    to="/login"
+                                    className="h-11 rounded-full bg-[#3B82F6] text-white font-medium hover:bg-[#2563EB] transition-colors flex justify-center items-center"
+                                >
+                                    Login
+                                </Link>
 
-                        <Link
-                             to='/login'
-                            className="h-11 rounded-full bg-[#3B82F6] text-white font-medium hover:bg-[#2563EB] transition-colors flex justify-center items-center"
-                        >
-                            Login
-                        </Link>
-
-                        <Link
-                            to='/signup'
-                            className="h-11 rounded-full border border-[#1B2B45] text-[#CBD5E1] font-medium hover:bg-[#101B30] transition-colors flex justify-center items-center"
-                        >
-                            Sign Up
-                        </Link>
-
-                    </div>
+                                <Link
+                                    to="/signup"
+                                    className="h-11 rounded-full border border-[#1B2B45] text-[#CBD5E1] font-medium hover:bg-[#101B30] transition-colors flex justify-center items-center"
+                                >
+                                    Sign Up
+                                </Link>
+                            </div>
+                        </div>
+                    )}
 
                 </div>
             </div>

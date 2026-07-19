@@ -12,6 +12,7 @@ import SettingsPage from './tabs/SettingsPage'
 import SignupPage from './auth/SignupPage'
 import LoginPage from './auth/LoginPage'
 import AccountRecovery from './auth/AccountRecovery'
+import UpdatePassword from './auth/UpdatePassword'
 
 // Dashboard
 import DashboardPage from './dashboard/DashboardPage'
@@ -31,6 +32,7 @@ function App() {
         <Route path="/accountrecovery" element={<AccountRecovery />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/setting" element={<SettingsPage />} />
+        <Route path="/update-password" element={<UpdatePassword />} />
       </Routes>
     </div>
   )

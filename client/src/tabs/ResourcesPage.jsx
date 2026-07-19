@@ -63,16 +63,16 @@ function ResourcesPage(){
         <div className="flex flex-col items-center h-full">
 
             {/* Nav bar section */}
-            <div className={`w-full ${keyboardOpen ? "hidden" : ""}`}>
+            <div className={`w-full`}>
                 <NavBarSection onShowChange={setValue} className={`fixed top-0 left-0 z-50`} />
             </div>
 
-            <div className={`fixed top-0 left-0 right-0 h-40 md:h-15 bg-gradient-to-b from-[#0B1220] via-[#0B1220]/40 z-10 ${show ? 'hidden' : 'fixed'} ${rightSection ? 'hidden' : ""}`} />
+            <div className={`fixed top-0 left-0 right-0 h-40 md:h-15 bg-gradient-to-b from-[#0B1220] via-[#0B1220]/40 z-10 ${show ? 'hidden' : 'fixed'}`} />
 
 
             {/* Docs Top Section */}
             <div
-            className={`fixed left-1/2 w-full max-w-5xl -translate-x-1/2 px-2 transition-all duration-400 z-10 ${ show ? "top-15 md:top-18" : "top-3"} ${keyboardOpen ? "hidden" : ""}`}
+            className={`fixed left-1/2 w-full max-w-5xl -translate-x-1/2 px-2 transition-all duration-400 z-10 ${ show ? "top-15 md:top-18" : "top-3"}`}
             >
                 <div
                     className="
@@ -208,7 +208,7 @@ function ResourcesPage(){
 
             </div>
 
-            <div className={`fixed bottom-0 left-0 right-0 h-40 md:h-15 bg-gradient-to-t from-[#0B1220] via-[#0B1220]/40 ${rightSection ? 'hidden' : ""}`} />
+            <div className={`fixed bottom-0 left-0 right-0 h-40 md:h-15 bg-gradient-to-t from-[#0B1220] via-[#0B1220]/40`} />
 
         </div>
     )

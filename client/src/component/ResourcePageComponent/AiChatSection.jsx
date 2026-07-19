@@ -38,7 +38,7 @@ function AiChatSection({rightSection, onKeyboardChange }){
 
     const messagesEndRef = useRef(null);
 
-    const API_KEY = process.env.VITE_GROQ_API_KEY;
+    const API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({
@@ -189,7 +189,7 @@ function AiChatSection({rightSection, onKeyboardChange }){
                         )}px`;
                     }}
                     onKeyDown={handleKeyDown}
-                    placeholder="Message AI..."
+                    placeholder="Ask your FAQ..."
                     className="
                         max-h-40
                         flex-1
