@@ -17,6 +17,9 @@ import UpdatePassword from './auth/UpdatePassword'
 // Dashboard
 import DashboardPage from './dashboard/DashboardPage'
 
+// Tools & Services
+import ImageToPdf from './tools&service/ImageToPdf'
+
 
 function App() {
   return (
@@ -33,6 +36,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/setting" element={<SettingsPage />} />
         <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="/imagetopdf" element={<ImageToPdf />} />
       </Routes>
     </div>
   )

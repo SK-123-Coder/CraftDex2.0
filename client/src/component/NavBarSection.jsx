@@ -1,7 +1,7 @@
 // Dependecies
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate  } from "react-router-dom";
 
 
 // Icons
@@ -89,12 +89,53 @@ function NavBarSection({ onShowChange }){
 
     const session = useContext(AuthContext);
 
+    // ===================================================================================================================
+
+    const navigate = useNavigate();
+
+    const API = import.meta.env.VITE_API_URL;
+
+    const [showAdminModal, setShowAdminModal] = useState(false);
+    const [password, setPassword] = useState("");
+
+    const handleAdminLogin = async () => {
+    try {
+        const res = await fetch(`${API}/api/adminlogin`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+        setShowAdminModal(false);
+        setPassword("");
+        navigate("/dashboard");
+        } else {
+        alert(data.message || "Invalid password");
+        }
+    } catch (err) {
+    console.error("Admin Login Error:", err);
+    alert(err.message);
+}
+    };
+
+    useEffect(() => {  // Prevent from scrooling
+    document.body.style.overflow = showAdminModal ? "hidden" : "auto";
+
+    return () => {
+        document.body.style.overflow = "auto";
+    };
+    }, [showAdminModal]);
 
     return(
         <nav className={`fixed top-0 w-full border-b border-[#3e4858] backdrop-blur-xl transition-transform duration-400 z-50 ${show ? "translate-y-0" : "-translate-y-full"}`}>
 
             {/* Top section */}
-            <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-4 py-1 md:py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-4 py-1 md:py-2">
 
                 <div className="flex justify-center items-center gap-3">
 
@@ -114,10 +155,14 @@ function NavBarSection({ onShowChange }){
 
                     {/* Logo */}
                     <Link
-                        to="/"
-                        className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text font-bold text-transparent text-lg md:text-xl  flex justify-center items-center"
+                    to="/"
+                    onDoubleClick={(e) => {
+                        e.preventDefault(); // Prevent navigation
+                        setShowAdminModal(true);
+                    }}
+                    className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text font-bold text-transparent text-lg md:text-xl flex justify-center items-center cursor-pointer"
                     >
-                        CraftDex
+                    CraftDex
                     </Link>
 
                 </div>
@@ -213,7 +258,7 @@ function NavBarSection({ onShowChange }){
                 <div className="md:flex items-center gap-4">
 
                     {session ? (
-                        <div ref={dropdownRef} className="hidden md:block urelative group">
+                        <div ref={dropdownRef} className="hidden md:block relative group">
                             {/* Profile Button */}
                             <button
                                 onClick={() => setIsOpen((prev) => !prev)}
@@ -231,7 +276,7 @@ function NavBarSection({ onShowChange }){
                             {/* Dropdown */}
                             <div
                                 className={`
-                                    absolute right-0 mt-2 w-64
+                                    absolute top-full right-0 mt-2 w-64
                                     rounded-xl border border-[#1B2B45]
                                     bg-[#101B30] shadow-xl z-50
                                     transition-all duration-200
@@ -276,19 +321,19 @@ function NavBarSection({ onShowChange }){
                             </div>
                         </div>
                     ) : (
-                        <div className="flex gap-2 hidden md:block">
+                        <div className="hidden md:flex items-center gap-2">
                             {/* Login */}
                             <Link
-                            to='/login'
-                            className="px-5 py-2 rounded-full bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors duration-200 cursor-pointer"
+                                to="/login"
+                                className="px-5 py-2 rounded-full bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors duration-200 cursor-pointer"
                             >
-                            Login
+                                Login
                             </Link>
 
                             {/* Sign Up */}
                             <Link
-                            to='/signup'
-                            className="px-5 py-2 rounded-full border border-[#1B2B45] bg-transparent text-[#CBD5E1] font-semibold hover:bg-[#101B30] hover:text-[#F8FAFC]transition-colors duration-200 cursor-pointer"
+                                to="/signup"
+                                className="px-5 py-2 rounded-full border border-[#1B2B45] bg-transparent text-[#CBD5E1] font-semibold hover:bg-[#101B30] hover:text-[#F8FAFC] transition-colors duration-200 cursor-pointer"
                             >
                                 Sign Up
                             </Link>
@@ -461,6 +506,47 @@ function NavBarSection({ onShowChange }){
 
                 </div>
             </div>
+
+            {showAdminModal && (
+            <div className="fixed inset-0 z-[9999] flex min-h-screen w-screen items-center justify-center bg-black/80 backdrop-blur-sm">
+                <div className="w-full max-w-md rounded-2xl border border-[#1B2B45] bg-[#050B18] p-8 shadow-2xl">
+                <h2 className="text-2xl font-bold text-white">
+                    Administrator Login
+                </h2>
+
+                <p className="mt-2 text-sm text-gray-400">
+                    Enter the administrator password to continue.
+                </p>
+
+                <input
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-6 w-full rounded-lg border border-[#1B2B45] bg-[#0B1220] px-4 py-3 text-white outline-none focus:border-blue-500"
+                />
+
+                <div className="mt-6 flex justify-end gap-3">
+                    <button
+                    onClick={() => {
+                        setShowAdminModal(false);
+                        setPassword("");
+                    }}
+                    className="rounded-lg border border-gray-600 px-4 py-2 text-gray-300 hover:bg-gray-800"
+                    >
+                    Cancel
+                    </button>
+
+                    <button
+                    onClick={handleAdminLogin}
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    >
+                    Login
+                    </button>
+                </div>
+                </div>
+            </div>
+            )}
         </nav>
     )
 }

@@ -4,10 +4,20 @@ import { useState } from "react";
 // Supabase config
 import supabase from '../supabaseConfig'
 
+// Component
+import NotificationModal from '../component/NotificationModal'
+
 function AccountRecovery(){
 
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const [modal, setModal] = useState({
+        open: false,
+        type: "info",
+        title: "",
+        message: "",
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,18 +25,27 @@ function AccountRecovery(){
         setLoading(true);
 
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: "http://localhost:5173/update-password", // Change to your frontend URL
+            redirectTo: "http://localhost:5173/update-password",
         });
 
+        setLoading(false);
+
         if (error) {
-            alert(error.message);
-            setLoading(false);
+            setModal({
+                open: true,
+                type: "error",
+                title: "Password Reset Failed",
+                message: error.message,
+            });
             return;
         }
 
-        alert("Password reset link has been sent to your email.");
-
-        setLoading(false);
+        setModal({
+            open: true,
+            type: "success",
+            title: "Email Sent",
+            message: "Password reset link has been sent to your email.",
+        });
     };
 
     return(
@@ -112,6 +131,31 @@ function AccountRecovery(){
 
             </div>
             </section>
+
+            <NotificationModal
+                isOpen={modal.open}
+                type={modal.type}
+                title={modal.title}
+                message={modal.message}
+                onClose={() => {
+                    setModal((prev) => ({
+                        ...prev,
+                        open: false,
+                    }));
+
+                    // Close tab after successful password reset email
+                    if (modal.type === "success") {
+                        // Try to close the current tab
+                        window.close();
+
+                        // If the browser prevents closing (most tabs not opened by JS),
+                        // redirect to another page instead.
+                        setTimeout(() => {
+                            window.location.href = "/";
+                        }, 100);
+                    }
+                }}
+            />
         </div>
     )
 }

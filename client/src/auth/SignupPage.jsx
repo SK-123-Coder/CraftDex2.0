@@ -90,6 +90,19 @@ function SignupPage(){
       }
   };
 
+  const handleGoogleAuth = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    if (error) {
+      console.error(error.message);
+    }
+  };
+
     return(
         <div>
 
@@ -266,6 +279,7 @@ function SignupPage(){
 
               {/* Google Button */}
               <button
+                onClick={handleGoogleAuth}
                 type="button"
                 className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-3 font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-800"
               >

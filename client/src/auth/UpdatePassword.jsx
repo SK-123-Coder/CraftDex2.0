@@ -3,24 +3,47 @@ import supabase from '../supabaseConfig'
 
 // Dependencies
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Component
+import NotificationModal from '../component/NotificationModal'
 
 
 function UpdatePassword(){
+
+    const navigate = useNavigate();
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const [modal, setModal] = useState({
+        open: false,
+        type: "info",
+        title: "",
+        message: "",
+    });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match.");
+            setModal({
+                open: true,
+                type: "error",
+                title: "Password Mismatch",
+                message: "Passwords do not match.",
+            });
             return;
         }
 
         if (password.length < 6) {
-            alert("Password must be at least 6 characters long.");
+            setModal({
+                open: true,
+                type: "warning",
+                title: "Invalid Password",
+                message: "Password must be at least 6 characters long.",
+            });
             return;
         }
 
@@ -30,17 +53,24 @@ function UpdatePassword(){
             password,
         });
 
+        setLoading(false);
+
         if (error) {
-            alert(error.message);
-            setLoading(false);
+            setModal({
+                open: true,
+                type: "error",
+                title: "Update Failed",
+                message: error.message,
+            });
             return;
         }
 
-        alert("Password updated successfully!");
-
-        setLoading(false);
-
-        // navigate("/login");
+        setModal({
+            open: true,
+            type: "success",
+            title: "Password Updated",
+            message: "Your password has been updated successfully.",
+        });
     };
 
     return(
@@ -113,6 +143,24 @@ function UpdatePassword(){
 
                 </div>
             </section>
+
+            <NotificationModal
+                isOpen={modal.open}
+                type={modal.type}
+                title={modal.title}
+                message={modal.message}
+                onClose={() => {
+                    setModal((prev) => ({
+                        ...prev,
+                        open: false,
+                    }));
+
+                    if (modal.type === "success") {
+                        window.location.href = "/";
+                        // or navigate("/") if you're using react-router
+                    }
+                }}
+            />
         </div>
     )
 }

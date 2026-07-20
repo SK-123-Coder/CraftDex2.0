@@ -62,6 +62,20 @@ function LoginPage(){
 
     };
 
+    
+    const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+        redirectTo: window.location.origin,
+        },
+    });
+
+    if (error) {
+        console.error(error.message);
+    }
+    };
+
     return(
         <div>
             {/* Login Section */}
@@ -71,21 +85,21 @@ function LoginPage(){
 
                 {/* Badge */}
                 <div className="inline-flex items-center rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1">
-                <span className="text-xs font-semibold tracking-wider text-blue-400 uppercase">
-                    Welcome Back
-                </span>
+                    <span className="text-xs font-semibold tracking-wider text-blue-400 uppercase">
+                        Welcome Back CRAFTDEX USER
+                    </span>
                 </div>
 
                 {/* Heading */}
                 <div className="mt-6">
-                <h1 className="text-4xl font-bold tracking-tight text-white">
-                    Sign In
-                </h1>
+                    <h1 className="text-4xl font-bold tracking-tight text-white">
+                        Sign In
+                    </h1>
 
-                <p className="mt-3 text-slate-400 leading-relaxed">
-                    Log in to continue managing your projects, collaborate with your team,
-                    and access your dashboard.
-                </p>
+                    <p className="mt-3 text-slate-400 leading-relaxed">
+                        Log in to continue managing your projects, collaborate with your team,
+                        and access your dashboard.
+                    </p>
                 </div>
 
                 {/* Form */}
@@ -153,22 +167,6 @@ function LoginPage(){
 
                 </div>
 
-                {/* Remember Me */}
-                <div className="flex items-center justify-between">
-
-                    <label className="flex items-center gap-3 text-sm text-slate-300 cursor-pointer">
-
-                    <input
-                        type="checkbox"
-                        className="h-4 w-4 rounded border-slate-700 bg-slate-900 text-blue-500 focus:ring-blue-500"
-                    />
-
-                    Remember me
-
-                    </label>
-
-                </div>
-
                 {/* Login Button */}
                 <button
                     type="submit"
@@ -222,9 +220,9 @@ function LoginPage(){
                 {/* Google */}
                 <button
                 type="button"
+                onClick={handleGoogleLogin}
                 className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-3 font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-800"
                 >
-
                 <img
                     src="https://www.svgrepo.com/show/475656/google-color.svg"
                     alt="Google"
@@ -232,7 +230,6 @@ function LoginPage(){
                 />
 
                 Continue with Google
-
                 </button>
 
                 {/* Footer */}
