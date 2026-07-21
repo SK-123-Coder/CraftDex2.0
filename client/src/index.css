@@ -9,3 +9,67 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.markdown-content h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 16px 0 10px;
+}
+
+.markdown-content h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 14px 0 8px;
+}
+
+.markdown-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 12px 0 8px;
+}
+
+.markdown-content p {
+    margin: 10px 0;
+    line-height: 1.8;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    margin: 10px 0;
+    padding-left: 22px;
+}
+
+.markdown-content li {
+    margin: 6px 0;
+}
+
+.markdown-content strong {
+    font-weight: 700;
+}
+
+.markdown-content code {
+    background: rgba(255,255,255,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.markdown-content pre {
+    background: #111827;
+    padding: 14px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 12px 0;
+}
+
+.markdown-content pre code {
+    background: transparent;
+    padding: 0;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid #06b6d4;
+    padding-left: 12px;
+    margin: 12px 0;
+    color: #cbd5e1;
+}

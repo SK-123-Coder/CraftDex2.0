@@ -1,87 +1,71 @@
-# FAQ
+# 📖 Frequently Asked Questions (FAQ)
 
-Welcome to the FAQ page. Below are some common questions and answers.
+Below are answers to some of the most common questions about **CraftDex**.
 
-------------------------------------------------------------------------
+---
 
-## 1. What is this project?
+# 🏢 CraftDex
 
-This project is a demo documentation site that explains features, setup,
-and usage.
+## What is CraftDex?
 
-------------------------------------------------------------------------
+CraftDex is a technology organisation focused on building AI-powered developer tools, platforms, and cloud services that simplify the software development lifecycle.
 
-## 2. How do I install it?
+### Who is behind DexOne?
 
-``` bash
-npm install
-npm run dev
-```
+DexOne is developed and maintained by **CraftDex** as its flagship AI-native software development platform.
 
-------------------------------------------------------------------------
+### Is DexOne open source?
 
-## 3. What technologies are used?
+No. DexOne is a commercial SaaS platform. However, some supporting tools and libraries may be released as open source in the future.
 
--   React
--   Vite
--   Tailwind CSS
--   React Router
--   React Markdown
+---
 
-------------------------------------------------------------------------
+# 🚀 DexOne Services
 
-## 4. How do I add a new documentation page?
+## What is DexOne?
 
-1.  Create a new `.md` file.
-2.  Place it inside the `docs/` folder.
-3.  Add it to your documentation tree.
-4.  Load and render it with your Markdown viewer.
+DexOne is an AI-native software development platform that helps developers and teams plan, build, test, document, deploy, and manage applications from a single workspace.
 
-------------------------------------------------------------------------
+### Who is DexOne designed for?
 
-## 5. Can I use images?
+DexOne is built for developers, startups, software companies, freelancers, students, and engineering teams.
 
-Yes.
+### Is DexOne free to use?
 
-``` md
-![Demo Image](./images/demo.png)
-```
+DexOne will offer multiple plans based on features and usage. Pricing details will be announced closer to launch.
 
-------------------------------------------------------------------------
+### Which AI models does DexOne support?
 
-## 6. Does it support tables?
+DexOne is designed to integrate with leading AI providers, including OpenAI, Google Gemini, and other supported models.
 
-  Feature       Supported
-  ------------- -----------
-  Markdown      ✅
-  Tables        ✅
-  Code Blocks   ✅
-  Images        ✅
+### Which programming languages are supported?
 
-------------------------------------------------------------------------
+DexOne aims to support multiple programming languages and frameworks, with an initial focus on modern web development.
 
-## 7. Who should use this project?
+### Can I collaborate with my team?
 
--   Developers
--   Technical Writers
--   Students
--   Teams creating internal documentation
+Yes. DexOne provides team workspaces, project management, documentation, and collaboration features.
 
-------------------------------------------------------------------------
+### Does DexOne support Git integration?
 
-## Example Code
+Yes. Git and GitHub integration are planned, with support for additional Git providers in future releases.
 
-``` jsx
-function Hello() {
-  return <h1>Hello World</h1>;
-}
-```
+### Can I deploy applications from DexOne?
 
-------------------------------------------------------------------------
+Yes. DexOne is designed to simplify deployments through integrated deployment workflows and cloud platform support.
 
-## Contact
+---
 
-For more information, contact:
+# 🔮 Future & Support
 
--   Email: support@example.com
--   Website: https://example.com
+## Will more features be added?
+
+Yes. DexOne is under active development, and new AI capabilities, integrations, and developer tools will be added regularly.
+
+### How can I stay updated?
+
+Follow the official CraftDex website, documentation, and release notes for the latest product announcements and feature updates.
+
+### How can I report a bug or request a feature?
+
+Bug reports, feature requests, and feedback can be submitted through the official CraftDex support channels once they become available.

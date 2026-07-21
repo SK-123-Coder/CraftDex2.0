@@ -1,5 +1,5 @@
 // Supabase config
-import supabase from '../supabaseConfig'
+import supabase from '../config/supabaseConfig.js'
 
 // Dependencies
 import { useState } from "react";

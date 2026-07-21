@@ -8,7 +8,7 @@ import { NavLink, useNavigate  } from "react-router-dom";
 import { FaUser, FaCog } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from '../config/AuthProvider.jsx'
 
 function NavBarSection({ onShowChange }){
 

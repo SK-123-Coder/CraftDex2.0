@@ -38,10 +38,6 @@ const docsTree = [
                 file:'imagetopdf/technology.md'
             },{
                 id:3,
-                title:'Tools & Service',
-                file:'imagetopdf/tools&services.md'
-            },{
-                id:4,
                 title:'Usecase',
                 file:'imagetopdf/usecase.md'
             }
@@ -60,10 +56,6 @@ const docsTree = [
                 file:'logchart/technology.md'
             },{
                 id:3,
-                title:'Tools & Service',
-                file:'logchart/tools&services.md'
-            },{
-                id:4,
                 title:'Usecase',
                 file:'logchart/usecase.md'
             }

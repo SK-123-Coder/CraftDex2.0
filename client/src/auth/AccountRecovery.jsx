@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // Supabase config
-import supabase from '../supabaseConfig'
+import supabase from '../config/supabaseConfig.js'
 
 // Component
 import NotificationModal from '../component/NotificationModal'

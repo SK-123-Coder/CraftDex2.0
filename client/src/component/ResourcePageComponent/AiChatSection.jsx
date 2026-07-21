@@ -1,5 +1,7 @@
 // Dependencies
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 // Icons
 import { FaArrowUp } from "react-icons/fa";
@@ -28,6 +30,33 @@ function AiChatSection({rightSection, onKeyboardChange }){
                 handleViewportResize
             );
         };
+    }, []);
+
+    // ===================================================================================================================
+
+
+    const [docs, setDocs] = useState("");
+
+    useEffect(() => {
+    async function loadDocs() {
+        const files = [
+        "/docs/faq/faq.md",
+        "/docs/craftdex/introduction.md",
+        "/docs/imagetopdf/introduction.md",
+        "/docs/logchart/introduction.md",
+        ];
+
+        const contents = await Promise.all(
+        files.map(async (file) => {
+            const res = await fetch(file);
+            return await res.text();
+        })
+        );
+
+        setDocs(contents.join("\n\n-----------------\n\n"));
+    }
+
+    loadDocs();
     }, []);
 
     // ===================================================================================================================
@@ -70,9 +99,57 @@ function AiChatSection({rightSection, onKeyboardChange }){
                 Authorization: `Bearer ${API_KEY}`,
             },
             body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: updatedMessages,
-            }),
+            model: "llama-3.3-70b-versatile",
+            messages: [
+                {
+                role: "system",
+                content: `
+                You are CraftDex AI Assistant.
+
+                Your role is to assist users with both the CraftDex application and general knowledge.
+
+                ## Personality
+                - Friendly, professional, and helpful.
+                - Answer naturally like ChatGPT.
+                - Keep responses concise unless the user asks for more detail.
+                - Format responses using Markdown.
+
+                ## Documentation Rules
+
+                When a question is about CraftDex, its features, APIs, installation, configuration, usage, troubleshooting, or documentation:
+
+                - Use ONLY the documentation provided below.
+                - Never invent undocumented features.
+                - If the answer isn't available in the documentation, reply:
+
+                "I couldn't find that information in the CraftDex documentation."
+
+                ## General Knowledge
+
+                If the question is NOT related to CraftDex documentation, you may answer normally using your own knowledge.
+
+                Examples:
+                - Programming (Python, JavaScript, React, Java, C++, SQL, etc.)
+                - Web development
+                - Algorithms
+                - Career guidance
+                - Basic mathematics
+                - Science
+                - Technology
+                - Greetings and casual conversation
+
+                ## Important
+
+                If a question mentions CraftDex or its features, always prioritize the documentation instead of your own knowledge.
+
+                Documentation:
+
+                ${docs}
+                `
+                },
+                ...updatedMessages,
+            ],
+            })
             }
         );
 
@@ -108,6 +185,8 @@ function AiChatSection({rightSection, onKeyboardChange }){
         }
     };
 
+    // ===================================================================================================================
+
     return(
         <div
         className={`${
@@ -118,7 +197,7 @@ function AiChatSection({rightSection, onKeyboardChange }){
 
 
             {/* Messages */}
-            <div className="flex-1 space-y-4 overflow-y-auto pt-4 pb-10 w-full">
+            <div className="flex-1 space-y-4 overflow-y-auto pt-4 pb-18 w-full">
                 {messages.length === 0 && (
                 <div className="mt-50 md:mt-70 text-center text-gray-400 text-3xl md:text-4xl font-semibold">
                     Ask Your Question to{" "}
@@ -143,9 +222,17 @@ function AiChatSection({rightSection, onKeyboardChange }){
                     }`}
                     >
 
-                    <p className="whitespace-pre-wrap leading-7 text-[15px]">
+                    {msg.role === "assistant" ? (
+                    <div className="markdown-content text-[16px] leading-7 p-3">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {msg.content}
+                        </ReactMarkdown>
+                    </div>
+                    ) : (
+                    <p className="whitespace-pre-wrap text-[16px] leading-7 p-3">
                         {msg.content}
                     </p>
+                    )}
                     </div>
                 </div>
                 ))}

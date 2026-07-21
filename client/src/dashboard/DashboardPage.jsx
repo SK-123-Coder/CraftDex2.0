@@ -1,4 +1,56 @@
+// Imports of dependencies
+import { useEffect, useState } from "react";
+import socket from '../config/socket.js'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+// Supabase config
+import supabase from '../config/supabaseConfig.js';
+
 function DashboardPage(){
+    const API = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
+
+    // =======================================================================================================
+
+    // For user analytics fetching live user count and daily active users count from backend using socket.io
+    const [users, setUsers] = useState(0); // Live count
+    const [dailyUsers, setDailyUsers] = useState(0);  // daily count
+
+    useEffect(() => {
+        socket.on("userCount", setUsers);
+        socket.on("dailyActiveUsers", setDailyUsers);
+
+        return () => {
+            socket.off("userCount");
+            socket.off("dailyActiveUsers");
+        };
+    }, []);
+
+    // =======================================================================================================
+
+    const [registeredUsers, setRegisteredUsers] = useState(0);
+
+    useEffect(() => {
+        const fetchRegisteredUsers = async () => {
+            try {
+                const res = await fetch(
+                    "http://localhost:3000/api/dashboard/registered-users"
+                );
+
+                const data = await res.json();
+
+                setRegisteredUsers(data.registeredUsers);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchRegisteredUsers();
+    }, []);
+
+    // =======================================================================================================
+
     return(
         <div>
             {/* Dashboard Section */}
@@ -6,18 +58,17 @@ function DashboardPage(){
                 <div className="mx-auto max-w-7xl">
 
                     {/* Top Navbar */}
-                    <div className="mb-10 flex items-center justify-between border border-[#1B2B45] bg-[#050B18] px-5 py-4 rounded-lg">
-                        <button className="text-sm font-medium text-[#CBD5E1] hover:text-white transition">
-                            ← Back to Home
+                    <div className="mb-10 flex items-center border border-[#1B2B45] bg-[#050B18] px-5 py-4 rounded-lg">
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="text-sm font-medium text-[#CBD5E1] hover:text-white transition"
+                        >
+                            ← Back
                         </button>
-
-                        <h2 className="text-lg font-semibold text-[#F8FAFC]">
-                            CraftDex Dashboard
-                        </h2>
                     </div>
 
                     {/* Dashboard Stats */}
-                    <div className="grid gap-6 md:grid-cols-2">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
                         {/* Live Users */}
                         <div className="rounded-xl border border-[#1B2B45] bg-[#050B18] p-8 text-center">
@@ -26,7 +77,7 @@ function DashboardPage(){
                             </p>
 
                             <h2 className="mt-4 text-5xl font-bold text-[#3B82F6]">
-                                124
+                                {users}
                             </h2>
 
                             <p className="mt-3 text-green-400 text-sm">
@@ -34,18 +85,33 @@ function DashboardPage(){
                             </p>
                         </div>
 
-                        {/* Daily Active */}
+                        {/* Daily Active Users */}
                         <div className="rounded-xl border border-[#1B2B45] bg-[#050B18] p-8 text-center">
                             <p className="text-[#94A3B8] text-sm">
                                 Daily Active Users
                             </p>
 
                             <h2 className="mt-4 text-5xl font-bold text-[#3B82F6]">
-                                2,341
+                                {dailyUsers}
                             </h2>
 
                             <p className="mt-3 text-[#94A3B8] text-sm">
                                 Last 24 Hours
+                            </p>
+                        </div>
+
+                        {/* Registered Users */}
+                        <div className="rounded-xl border border-[#1B2B45] bg-[#050B18] p-8 text-center">
+                            <p className="text-[#94A3B8] text-sm">
+                                Registered Users
+                            </p>
+
+                            <h2 className="mt-4 text-5xl font-bold text-[#3B82F6]">
+                                {registeredUsers}
+                            </h2>
+
+                            <p className="mt-3 text-[#94A3B8] text-sm">
+                                Total Registered
                             </p>
                         </div>
 
