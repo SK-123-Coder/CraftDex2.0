@@ -14,6 +14,9 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { IoSparklesSharp } from "react-icons/io5";
 
+// Config
+import { docs } from "../data/docs.js";
+
 
 function ResourcesPage(){
 
@@ -36,7 +39,7 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
-    const [selectedFile, setSelectedFile] = useState("craftdex/introduction.md");
+    const [selectedFile, setSelectedFile] = useState("craftdex/IntroductionOfCraftdex.md");
     const [markdown, setMarkdown] = useState("");
 
     useEffect(() => {
@@ -54,6 +57,19 @@ function ResourcesPage(){
         })
         .catch(console.error);
     }, [selectedFile]);
+
+    // ===================================================================================================================
+
+    const [search, setSearch] = useState("");
+
+    const query = search.toLowerCase();
+
+    const filteredDocs = docs.filter(doc =>
+    doc.title.toLowerCase().includes(query) ||
+    (doc.keywords || []).some(keyword =>
+        keyword.toLowerCase().includes(query)
+    )
+    );
 
     // ===================================================================================================================
 
@@ -119,28 +135,30 @@ function ResourcesPage(){
                         className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
                     />
 
-                    <input
-                        type="text"
-                        placeholder="Search documentation..."
-                        className="
-                        w-full
-                        rounded-full
-                        border border-slate-700
-                        bg-[#111C2E]
-                        py-2
-                        pl-11
-                        pr-4
-                        text-sm
-                        text-white
-                        outline-none
-                        transition-all
-                        duration-300
-                        placeholder:text-slate-500
-                        focus:border-blue-500
-                        focus:ring-2
-                        focus:ring-blue-500/20
-                        "
-                    />
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="text"
+                            placeholder="Search documentation..."
+                            className="
+                            w-full
+                            rounded-full
+                            border border-slate-700
+                            bg-[#111C2E]
+                            py-2
+                            pl-11
+                            pr-4
+                            text-sm
+                            text-white
+                            outline-none
+                            transition-all
+                            duration-300
+                            placeholder:text-slate-500
+                            focus:border-blue-500
+                            focus:ring-2
+                            focus:ring-blue-500/20
+                            "
+                        />
                     </div>
 
                     {/* Right Button */}
@@ -169,6 +187,33 @@ function ResourcesPage(){
                     />
                     </button>
                 </div>
+
+                {
+                search && (
+                    <div className="absolute left-0 right-0 top-full mt-2 rounded-xl bg-[#111C2E] border border-slate-700 overflow-hidden z-50 mx-2">
+
+                        {filteredDocs.length ? (
+                            filteredDocs.map(doc => (
+                                <button
+                                    key={doc.path}
+                                    className="w-full text-left px-4 py-3 hover:bg-slate-700"
+                                    onClick={() => {
+                                        setSelectedFile(doc.path);
+                                        setSearch("");
+                                    }}
+                                >
+                                    {doc.title}
+                                </button>
+                            ))
+                        ) : (
+                            <div className="px-4 py-3 text-slate-400">
+                                No document found
+                            </div>
+                        )}
+
+                    </div>
+                )
+                }
             </div>
 
 

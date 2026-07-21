@@ -9,19 +9,19 @@ const docsTree = [
             {
                 id:1,
                 title:'Introduction',
-                file:'craftdex/introduction.md'
+                file:'craftdex/IntroductionOfCraftdex.md'
             },{
                 id:2,
                 title:'Technology',
-                file:'craftdex/technology.md'
+                file:'craftdex/TechnologyOfCraftdex.md'
             },{
                 id:3,
                 title:'Tools & Service',
-                file:'craftdex/tools&services.md'
+                file:'craftdex/Tools&ServicesOfCraftdex.md'
             },{
                 id:4,
                 title:'Usecase',
-                file:'craftdex/usecase.md'
+                file:'craftdex/UsecaseOfCraftdex.md'
             }
         ]
     },{
@@ -31,15 +31,15 @@ const docsTree = [
             {
                 id:1,
                 title:'Introduction',
-                file:'imagetopdf/introduction.md'
+                file:'imagetopdf/IntroductionOfITPC.md'
             },{
                 id:2,
                 title:'Technology',
-                file:'imagetopdf/technology.md'
+                file:'imagetopdf/TechnologyOfITPC.md'
             },{
                 id:3,
                 title:'Usecase',
-                file:'imagetopdf/usecase.md'
+                file:'imagetopdf/UsecaseOfITPC.md'
             }
         ]
     },{
@@ -49,15 +49,15 @@ const docsTree = [
             {
                 id:1,
                 title:'Introduction',
-                file:'logchart/introduction.md'
+                file:'logchart/IntroductionOfLogchart.md'
             },{
                 id:2,
                 title:'Technology',
-                file:'logchart/technology.md'
+                file:'logchart/TechnologyOfLogchart.md'
             },{
                 id:3,
                 title:'Usecase',
-                file:'logchart/usecase.md'
+                file:'logchart/UsecaseOfLogchart.md'
             }
         ]
     },{

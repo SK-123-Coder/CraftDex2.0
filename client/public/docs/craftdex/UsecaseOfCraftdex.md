@@ -1,4 +1,4 @@
-## 🚀 Use Cases of CraftDex
+# 🚀 Use Cases of CraftDex
 
 CraftDex provides practical software solutions designed to simplify everyday tasks and improve productivity. Whether you're an individual, student, freelancer, or business, our services are built to solve real-world problems efficiently.
 

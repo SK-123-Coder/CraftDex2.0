@@ -1,4 +1,4 @@
-## 🚀 Use Cases of Image to PDF
+# 🚀 Use Cases of Image to PDF
 
 The **CraftDex Image to PDF Converter** is designed for anyone who needs to quickly organize, convert, and share images as professional PDF documents.
 
