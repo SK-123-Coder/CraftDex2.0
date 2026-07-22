@@ -1,3 +1,5 @@
+// Socket config
+
 import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 

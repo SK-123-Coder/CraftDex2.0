@@ -29,6 +29,7 @@ function DashboardPage(){
 
     // =======================================================================================================
 
+    // fetch registered user data from supbase.
     const [registeredUsers, setRegisteredUsers] = useState(0);
 
     useEffect(() => {

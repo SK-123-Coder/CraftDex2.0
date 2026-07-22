@@ -1,3 +1,5 @@
+// Admin auth verification
+
 export const verifyAdminPassword = async (req, res) => {
   try {
     const { password } = req.body;

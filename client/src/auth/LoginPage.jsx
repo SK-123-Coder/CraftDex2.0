@@ -10,6 +10,9 @@ import NotificationModal from '../component/NotificationModal'
 
 function LoginPage(){
 
+    // ===================================================================================================================
+
+    // Handle input feild and supabase login info
     const navigate = useNavigate();
 
     const [modal, setModal] = useState({
@@ -62,7 +65,9 @@ function LoginPage(){
 
     };
 
-    
+    // ===================================================================================================================
+
+    // Handle google OAuth
     const handleGoogleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
@@ -75,6 +80,8 @@ function LoginPage(){
         console.error(error.message);
     }
     };
+
+    // ===================================================================================================================
 
     return(
         <div>
@@ -250,6 +257,7 @@ function LoginPage(){
 
             </section>
 
+            {/* Notification window */}
             <NotificationModal
                 isOpen={modal.open}
                 type={modal.type}

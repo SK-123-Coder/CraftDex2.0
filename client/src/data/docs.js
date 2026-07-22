@@ -1,3 +1,5 @@
+// Documentation search keyword query
+
 export const docs = [
   // CraftDex
   {
@@ -12,7 +14,7 @@ export const docs = [
       "docs",
       "manual",
       "welcome",
-      "craftdex"
+      "craftdex",
     ],
     folder: "craftdex",
     path: "craftdex/IntroductionOfCraftdex.md",
@@ -21,10 +23,12 @@ export const docs = [
   {
     title: "Technology Of Craftdex",
     keywords: [
+      "technology",
       "tech",
       "code",
       "setup",
       "structure",
+      "craftdex",
     ],
     folder: "craftdex",
     path: "craftdex/TechnologyOfCraftdex.md",
@@ -36,8 +40,9 @@ export const docs = [
       "services",
       "tools",
       "methods",
-      "documentation of tools",
-      "documentation of services",
+      "tool documentation",
+      "service documentation",
+      "craftdex",
     ],
     folder: "craftdex",
     path: "craftdex/Tools&ServicesOfCraftdex.md",
@@ -46,11 +51,12 @@ export const docs = [
   {
     title: "Usecase Of CraftDex",
     keywords: [
-      "How",
-      "Why",
-      "How to",
-      "Where",
-      "Improvements"
+      "usecase",
+      "how",
+      "why",
+      "where",
+      "improvements",
+      "craftdex",
     ],
     folder: "craftdex",
     path: "craftdex/UsecaseOfCraftdex.md",
@@ -69,7 +75,8 @@ export const docs = [
       "webp to pdf",
       "merge images",
       "export",
-      "create pdf"
+      "create pdf",
+      "itpc",
     ],
     folder: "imagetopdf",
     path: "imagetopdf/IntroductionOfITPC.md",
@@ -78,6 +85,7 @@ export const docs = [
   {
     title: "Technology Of ITPC",
     keywords: [
+      "technology",
       "code",
       "image convert",
       "pdf",
@@ -85,7 +93,8 @@ export const docs = [
       "compress",
       "jpg",
       "heic",
-      "formate",
+      "format",
+      "itpc",
     ],
     folder: "imagetopdf",
     path: "imagetopdf/TechnologyOfITPC.md",
@@ -94,52 +103,59 @@ export const docs = [
   {
     title: "Usecase Of ITPC",
     keywords: [
+      "usecase",
       "school",
       "college",
       "print",
       "document",
-      "bluprint",
+      "blueprint",
       "daily",
+      "itpc",
     ],
     folder: "imagetopdf",
     path: "imagetopdf/UsecaseOfITPC.md",
   },
 
-  // Logchart
+  // LogChart
   {
-    title: "DexOne/LogChart",
+    title: "DexOne / LogChart",
     keywords: [
       "saas",
       "service",
       "development",
       "productive",
       "complex project",
+      "logchart",
+      "dexone",
     ],
     folder: "logchart",
     path: "logchart/IntroductionOfLogchart.md",
   },
 
   {
-    title: "DexOne/LogChart",
+    title: "DexOne / LogChart",
     keywords: [
-      "tech of saas",
-      "behind tech",
+      "technology",
       "architecture",
-      "Agentic",
+      "agentic",
       "agentic platform",
+      "logchart",
+      "dexone",
     ],
     folder: "logchart",
     path: "logchart/TechnologyOfLogchart.md",
   },
 
   {
-    title: "DexOne/LogChart",
+    title: "DexOne / LogChart",
     keywords: [
-      "what type project",
       "project",
       "complex idea",
-      "Agentic assisstance",
-      "AI",
+      "agentic assistance",
+      "ai",
+      "usecase",
+      "logchart",
+      "dexone",
     ],
     folder: "logchart",
     path: "logchart/UsecaseOfLogchart.md",
@@ -149,9 +165,10 @@ export const docs = [
   {
     title: "FAQ",
     keywords: [
+      "faq",
       "questions",
-      "answer",
-      "frequently",
+      "answers",
+      "frequently asked questions",
       "user query",
     ],
     folder: "faq",

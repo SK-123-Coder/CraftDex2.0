@@ -1,3 +1,5 @@
+// Used for notification success, filed, inavlid etc
+
 export default function NotificationModal({
     isOpen,
     onClose,

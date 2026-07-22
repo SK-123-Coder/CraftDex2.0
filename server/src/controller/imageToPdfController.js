@@ -1,3 +1,4 @@
+// Dependencies
 import PDFDocument from "pdfkit";
 import sharp from "sharp";
 
@@ -11,6 +12,7 @@ const A4_HEIGHT_PT = 842;
 const A4_WIDTH_PX = Math.round(8.27 * DPI);   // 2480
 const A4_HEIGHT_PX = Math.round(11.69 * DPI); // 3508
 
+// Handle image to pdf conversion logic
 export const downloadPdf = async (req, res) => {
   console.log('from back')
   const files = req.files;

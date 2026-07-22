@@ -1,5 +1,5 @@
+// Dependencies
 import dotenv from "dotenv";
-
 import express from 'express'
 import cors from 'cors'
 import multer from "multer"
@@ -20,8 +20,8 @@ dotenv.config();
 const app = express()
 const PORT = 3000
 
-app.use(express.json());              // <-- Required
-app.use(express.urlencoded({ extended: true })); // Optional but recommended
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
   origin: [
@@ -90,12 +90,14 @@ io.on("connection", (socket) => {
 
 // ===================================================================================================================
 
+// Default route
 app.get('/', (req, res) => {
     res.send('Hello')
 })
 
 // ===================================================================================================================
 
+// Handel file upload and download
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -111,11 +113,8 @@ app.post(
 
 // ===================================================================================================================
 
+// Handel admin auth
 app.use("/api/adminlogin", adminRoutes);
-
-// ===================================================================================================================
-
-
 
 // ===================================================================================================================
 

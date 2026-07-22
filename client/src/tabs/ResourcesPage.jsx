@@ -30,7 +30,7 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
-    // Handling document bar behaviour
+    // Handling behaviour for blured top & bottom bar effect
     const [show, setShow] = useState(true);
 
     const setValue = (state) => {
@@ -39,6 +39,7 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
+    // Render .md file on middle section with toggle & search feature
     const [selectedFile, setSelectedFile] = useState("craftdex/IntroductionOfCraftdex.md");
     const [markdown, setMarkdown] = useState("");
 
@@ -60,6 +61,7 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
+    // Documentation search mechanism 
     const [search, setSearch] = useState("");
 
     const query = search.toLowerCase();
@@ -73,8 +75,6 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
-    const [keyboardOpen, setKeyboardOpen] = useState(false);
-
     return(
         <div className="flex flex-col items-center h-full">
 
@@ -83,6 +83,7 @@ function ResourcesPage(){
                 <NavBarSection onShowChange={setValue} className={`fixed top-0 left-0 z-50`} />
             </div>
 
+            {/* top dark border */}
             <div className={`fixed top-0 left-0 right-0 h-40 md:h-15 bg-gradient-to-b from-[#0B1220] via-[#0B1220]/40 z-10 ${show ? 'hidden' : 'fixed'}`} />
 
 
@@ -246,13 +247,13 @@ function ResourcesPage(){
                     {/* Ai chat section */}
                     <AiChatSection 
                     rightSection={rightSection}
-                    onKeyboardChange={setKeyboardOpen}
                     />
 
                 </div>
 
             </div>
 
+            {/* Bottom dark border */}
             <div className={`fixed bottom-0 left-0 right-0 h-40 md:h-15 bg-gradient-to-t from-[#0B1220] via-[#0B1220]/40`} />
 
         </div>

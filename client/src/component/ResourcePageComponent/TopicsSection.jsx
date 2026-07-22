@@ -1,6 +1,7 @@
 // Dependencies
 import { useState } from "react";
 
+// Topics list and links
 const docsTree = [
     {
         id:1,
@@ -67,6 +68,7 @@ const docsTree = [
     }
 ]
 
+// Recursive tree find inner child and properties
 function TreeNode({ node, onSelectFile, activeFile, setActiveSection }) {
   const [open, setOpen] = useState(false);
 
@@ -143,6 +145,7 @@ function TreeNode({ node, onSelectFile, activeFile, setActiveSection }) {
   );
 }
 
+// Recursive tree render
 function TopicsSection({
   leftSection,
   onSelectFile,

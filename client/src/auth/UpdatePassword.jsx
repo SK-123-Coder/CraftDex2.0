@@ -11,6 +11,9 @@ import NotificationModal from '../component/NotificationModal'
 
 function UpdatePassword(){
 
+    // ===================================================================================================================
+
+    // Handle input feild and supabase login info
     const navigate = useNavigate();
 
     const [password, setPassword] = useState("");
@@ -72,6 +75,8 @@ function UpdatePassword(){
             message: "Your password has been updated successfully.",
         });
     };
+
+    // ===================================================================================================================
 
     return(
         <div>

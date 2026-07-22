@@ -58,7 +58,7 @@ function NavBarSection({ onShowChange }){
 
     // ===================================================================================================================
 
-    // For profile icons behaviour
+    // For profile dropdown icons behaviour
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -87,10 +87,12 @@ function NavBarSection({ onShowChange }){
 
     // ===================================================================================================================
 
+    // get session id from local storage
     const session = useContext(AuthContext);
 
     // ===================================================================================================================
 
+    // For admin login
     const navigate = useNavigate();
 
     const API = import.meta.env.VITE_API_URL;
@@ -130,6 +132,8 @@ function NavBarSection({ onShowChange }){
         document.body.style.overflow = "auto";
     };
     }, [showAdminModal]);
+
+    // ===================================================================================================================
 
     return(
         <nav className={`fixed top-0 w-full border-b border-[#3e4858] backdrop-blur-xl transition-transform duration-400 z-50 ${show ? "translate-y-0" : "-translate-y-full"}`}>

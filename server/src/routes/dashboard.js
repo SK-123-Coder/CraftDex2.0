@@ -1,3 +1,4 @@
+// Provide registered users detail to admin page
 import express from "express";
 import { createClient } from "@supabase/supabase-js";
 

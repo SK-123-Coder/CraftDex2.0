@@ -6,35 +6,14 @@ import remarkGfm from "remark-gfm";
 // Icons
 import { FaArrowUp } from "react-icons/fa";
 
+// Component
+import TypewriterMarkdown from "./TypewriterMarkdown";
+
 function AiChatSection({rightSection, onKeyboardChange }){
 
     // ===================================================================================================================
 
-    const [keyboardOpen, setKeyboardOpen] = useState(false);
-
-    useEffect(() => {
-        if (!window.visualViewport) return;
-
-        const handleViewportResize = () => {
-        const keyboardVisible =
-            window.visualViewport.height < window.innerHeight * 0.8;
-
-            setKeyboardOpen(keyboardVisible);
-            onKeyboardChange(keyboardVisible);
-        };
-        window.visualViewport.addEventListener("resize", handleViewportResize);
-
-        return () => {
-            window.visualViewport.removeEventListener(
-                "resize",
-                handleViewportResize
-            );
-        };
-    }, []);
-
-    // ===================================================================================================================
-
-
+    // Provide documentation .md file to API model
     const [docs, setDocs] = useState("");
 
     useEffect(() => {
@@ -61,20 +40,26 @@ function AiChatSection({rightSection, onKeyboardChange }){
 
     // ===================================================================================================================
 
+    // Integret API model with model preference and conversation state management
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const textareaRef = useRef(null);
+
+    const [typingIndex, setTypingIndex] = useState(null);
 
     const messagesEndRef = useRef(null);
 
-    const API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+    const chatContainerRef = useRef(null);
+    const [autoScroll, setAutoScroll] = useState(true);
+
+    const API_KEY = import.meta.env.VITE_GROQ_API_KEY;  // Model api
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({
-        behavior: "smooth",
-        });
-    }, [messages]);
+    scrollToBottom();
+    }, [messages, autoScroll]);
 
+    // Send's query to model and protocol of ethics
     const sendMessage = async () => {
         if (!message.trim() || loading) return;
 
@@ -162,7 +147,13 @@ function AiChatSection({rightSection, onKeyboardChange }){
             "Sorry, I couldn't generate a response.",
         };
 
-        setMessages((prev) => [...prev, aiMessage]);
+        setMessages((prev) => {
+            const updated = [...prev, aiMessage];
+
+            setTypingIndex(updated.length - 1);
+
+            return updated;
+        });
         } catch (error) {
         setMessages((prev) => [
             ...prev,
@@ -178,6 +169,7 @@ function AiChatSection({rightSection, onKeyboardChange }){
         setLoading(false);
     };
 
+    // button
     const handleKeyDown = (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -185,7 +177,42 @@ function AiChatSection({rightSection, onKeyboardChange }){
         }
     };
 
+    // Handle input field layout
+    const handleInput = (e) => {
+        setMessage(e.target.value);
+
+        e.target.style.height = "0px";
+
+        const height = Math.min(e.target.scrollHeight, 160);
+
+        e.target.style.height = `${height}px`;
+    };
+
+    const handleScroll = () => {
+    const container = chatContainerRef.current;
+    if (!container) return;
+
+    const threshold = 80; // px
+
+    const isNearBottom =
+        container.scrollHeight -
+        container.scrollTop -
+        container.clientHeight <
+        threshold;
+
+    setAutoScroll(isNearBottom);
+    };
+
+    const scrollToBottom = () => {
+    if (!autoScroll) return;
+
+    messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+    });
+    };
+
     // ===================================================================================================================
+
 
     return(
         <div
@@ -197,7 +224,12 @@ function AiChatSection({rightSection, onKeyboardChange }){
 
 
             {/* Messages */}
-            <div className="flex-1 space-y-4 overflow-y-auto pt-4 pb-18 w-full">
+            <div 
+              ref={chatContainerRef}
+                onScroll={handleScroll}
+                className="flex-1 space-y-4 overflow-y-auto pt-4 pb-10 w-full"
+            >
+                {/* Title */}
                 {messages.length === 0 && (
                 <div className="mt-50 md:mt-70 text-center text-gray-400 text-3xl md:text-4xl font-semibold">
                     Ask Your Question to{" "}
@@ -207,36 +239,47 @@ function AiChatSection({rightSection, onKeyboardChange }){
                 </div>
                 )}
 
+                {/* Message */}
                 {messages.map((msg, index) => (
-                <div
-                    key={index}
-                    className={`flex ${
-                    msg.role === "user" ? "justify-end" : "justify-start"
-                    }`}
-                >
                     <div
-                    className={`relative max-w-[85%] rounded-3xl px-4 py-3 shadow-lg backdrop-blur-md transition-all ${
-                        msg.role === "user"
-                        ? "rounded-br-md bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-cyan-500/20"
-                        : "rounded-bl-md border border-white/10 bg-white/10 text-slate-100 shadow-black/30"
-                    }`}
+                        key={index}
+                        className={`flex ${
+                        msg.role === "user" ? "justify-end" : "justify-start"
+                        }`}
                     >
+                        <div
+                        className={`relative max-w-[85%] rounded-3xl px-4 py-3 shadow-lg backdrop-blur-md transition-all ${
+                            msg.role === "user"
+                            ? "rounded-br-md bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-cyan-500/20"
+                            : "rounded-bl-md border border-white/10 bg-white/10 text-slate-100 shadow-black/30"
+                        }`}
+                        >
 
-                    {msg.role === "assistant" ? (
-                    <div className="markdown-content text-[16px] leading-7 p-3">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {msg.content}
-                        </ReactMarkdown>
+                        {msg.role === "assistant" ? (
+                            typingIndex === index ? (
+                                <TypewriterMarkdown
+                                    text={msg.content}
+                                    speed={8}
+                                    onTyping={scrollToBottom}
+                                    onComplete={() => setTypingIndex(null)}
+                                />
+                            ) : (
+                                <div className="markdown-content text-[16px] leading-7 p-1">
+                                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                        {msg.content}
+                                    </ReactMarkdown>
+                                </div>
+                            )
+                        ) : (
+                            <p className="whitespace-pre-wrap text-[16px] leading-7 p-1">
+                                {msg.content}
+                            </p>
+                        )}
+                        </div>
                     </div>
-                    ) : (
-                    <p className="whitespace-pre-wrap text-[16px] leading-7 p-3">
-                        {msg.content}
-                    </p>
-                    )}
-                    </div>
-                </div>
                 ))}
 
+                {/* Loading */}
                 {loading && (
                 <div className="flex justify-start">
                     <div className="rounded-2xl border bg-white px-4 py-3 shadow">
@@ -260,9 +303,10 @@ function AiChatSection({rightSection, onKeyboardChange }){
 
             {/* Chat Input */}
             <div className="fixed inset-x-0 bottom-3 z-50 flex justify-center px-2">
-                <div className="flex w-full max-w-5xl items-end gap-3 rounded-full border border-slate-700/70 bg-slate-900/90 p-3 shadow-2xl backdrop-blur-xl transition-all">
+                <div className="flex w-full max-w-5xl items-center gap-3 rounded-full border border-slate-700/70 bg-slate-900/90 p-3 shadow-2xl backdrop-blur-xl transition-all">
 
                     <textarea
+                    ref={textareaRef}
                     rows={1}
                     value={message}
                     onChange={(e) => {
@@ -274,21 +318,22 @@ function AiChatSection({rightSection, onKeyboardChange }){
                         e.target.scrollHeight,
                         160
                         )}px`;
+                        handleInput
                     }}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask your FAQ..."
+                    placeholder="Ask your Query..."
                     className="
-                        max-h-40
                         flex-1
                         resize-none
                         overflow-y-auto
                         bg-transparent
-                        px-2
-                        py-2
-                        text-[18px]
                         text-white
+                        text-base
+                        leading-6
                         placeholder:text-slate-400
                         outline-none
+                        max-h-40
+                        py-2 px-4
                     "
                     />
 

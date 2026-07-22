@@ -9,7 +9,7 @@ function AboutPage(){
 
     // ===================================================================================================================
 
-    // Handling document bar and focuse effect behaviour
+    // Handling behaviour for blured top & bottom bar effect
     const [show, setShow] = useState(true);
 
     const setValue = (state) => {
@@ -40,349 +40,291 @@ function AboutPage(){
             />
 
             {/* Main Section */}
-            <div className='pt-10 md:pt-0'>
+            <div className='pt-20 md:pt-0'>
 
-                {/* Company Introduction Section */}
-                <section className="min-h-screen flex flex-col items-center py-24 md:py-32 lg:py-20 px-4 sm:px-6">
-                    <div className="max-w-5xl text-center md:pt-28">
+                {/* Founder Profile Section */}
+                <section className="min-h-screen flex items-center justify-center md:py-20 px-4 md:px-6">
+                    <div className="max-w-5xl w-full">
+                        
+                        {/* Glow Container */}
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6]/10 via-transparent to-[#60A5FA]/5 rounded-[2.75rem] blur-3xl" />
 
-                        {/* Badge */}
-                        <span className="inline-flex items-center rounded-full border border-[#1B2B45] bg-[#050B18] px-4 py-1 text-sm font-medium text-[#60A5FA]">
-                        ABOUT CRAFTDEX
-                        </span>
+                            {/* Main Card */}
+                            <div className="relative rounded-3xl border border-[#1B2B45] bg-[#050B18] p-8 md:p-14 lg:p-16 overflow-hidden">
 
-                        {/* Heading */}
-                        <h1 className="mt-8 text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-[#F8FAFC]">
-                        Empowering Developers
-                        <span className="block text-[#3B82F6]">
-                            Through Knowledge & Innovation
-                        </span>
-                        </h1>
+                                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-                        {/* Description */}
-                        <p className="mx-auto mt-8 max-w-3xl text-lg md:text-xl leading-8 text-[#94A3B8]">
-                        At CraftDex, we believe every developer deserves access to high-quality
-                        learning resources, modern development tools, and practical project
-                        guidance. Our mission is to simplify the learning journey by bringing
-                        curated technologies, tutorials, and real-world solutions together in one
-                        platform.
-                        </p>
+                                {/* Left - Profile Info */}
+                                <div>
+                                    <span className="inline-flex rounded-full border border-[#3B82F6]/30 bg-[#3B82F6]/10 px-5 py-1.5 text-sm font-medium text-[#60A5FA]">
+                                    Founder &amp; CEO
+                                    </span>
 
-                        <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-[#94A3B8]">
-                        Whether you're just starting your programming career or you're an
-                        experienced engineer exploring new technologies, CraftDex helps you
-                        discover, learn, and build with confidence.
-                        </p>
+                                    <h2 className="mt-8 text-5xl md:text-6xl font-semibold text-white">
+                                    Sarang Khandate
+                                    </h2>
+                                    
+                                    <p className="mt-3 text-xl text-[#3B82F6] font-light">
+                                    Full Stack Developer &amp; Automation Engineer
+                                    </p>
 
-                        {/* Buttons */}
-                        <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        <button className="rounded-lg bg-[#3B82F6] px-6 py-3 font-medium text-white hover:bg-[#2563EB] transition-colors">
-                            Learn More
-                        </button>
+                                    <div className="mt-10 text-[#94A3B8] leading-relaxed text-[17px]">
+                                        Passionate about building reliable AI-powered automation services that
+                                        simplify workflows, eliminate repetitive tasks, and help developers and
+                                        businesses move faster with confidence.
+                                    </div>
 
-                        <button className="rounded-lg border border-[#1B2B45] px-6 py-3 font-medium text-[#CBD5E1] hover:bg-[#101B30] transition-colors">
-                            Contact Us
-                        </button>
+                                    {/* Tech Stack */}
+                                    <div className="mt-12">
+                                        <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
+                                            <span>Current Toolkit</span>
+                                            <div className="h-px flex-1 bg-gradient-to-r from-[#3B82F6]/30 to-transparent" />
+                                        </h4>
+
+                                        <div className="flex flex-wrap gap-3">
+                                        {[
+                                            "MERN Stack",
+                                            "Next.js",
+                                            "Python",
+                                            "Supabase",
+                                            "Docker",
+                                            "REST APIs",
+                                            "AI Automation",
+                                            "Automation Scripts",
+                                            "GitHub Actions",
+                                            "AWS",
+                                        ].map((skill) => (
+                                            <span
+                                            key={skill}
+                                            className="rounded-2xl border border-[#1B2B45] bg-[#0A1428] px-5 py-2.5 text-sm text-[#CBD5E1] hover:border-[#60A5FA] hover:text-white transition-all duration-200 hover:-translate-y-0.5"
+                                            >
+                                            {skill}
+                                            </span>
+                                        ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Side */}
+                                <div className="flex flex-col gap-8">
+
+                                    {/* Philosophy Card */}
+                                    <div className="rounded-3xl border border-[#1B2B45] bg-[#0A1428] p-9">
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <div className="w-8 h-px bg-[#3B82F6]" />
+                                            <span className="uppercase text-xs tracking-[2px] text-[#60A5FA] font-medium">
+                                                Our Philosophy
+                                            </span>
+                                        </div>
+
+                                        <blockquote className="text-[#CBD5E1] italic text-[17px] leading-relaxed">
+                                            "We believe great technology is built on trust, reliability, and exceptional user experiences. Every tool and AI-powered service should simplify work, solve real problems, and help people achieve more with confidence."
+                                        </blockquote>
+                                    </div>
+
+                                    {/* Core Values / Focus Areas */}
+                                    <div>
+                                    <h4 className="font-semibold text-white mb-6">What I Obsess Over</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {[
+                                        { icon: "⚙️", label: "Automation" },
+                                        { icon: "🚀", label: "Performance" },
+                                        { icon: "🏗️", label: "System Design" },
+                                        { icon: "🛡️", label: "Reliability" },
+                                        ].map(({ icon, label }) => (
+                                        <div
+                                            key={label}
+                                            className="group rounded-3xl border border-[#1B2B45] bg-[#0A1428] p-7 transition-all duration-300 hover:border-[#60A5FA] hover:-translate-y-1"
+                                        >
+                                            <div className="text-3xl mb-4 transition-transform group-hover:scale-110">
+                                            {icon}
+                                            </div>
+                                            <p className="font-medium text-white">{label}</p>
+                                        </div>
+                                        ))}
+                                    </div>
+                                    </div>
+
+                                </div>
+
+                                </div>
+
+                                {/* Optional subtle signature / tagline */}
+                                <div className="mt-16 pt-8 border-t border-[#1B2B45] flex justify-center">
+                                <p className="text-xs uppercase tracking-widest text-[#475569] font-mono">
+                                    Building in public • Shipping with purpose
+                                </p>
+                                </div>
+
+                            </div>
                         </div>
-
-                        {/* Company Highlights */}
-                        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-
-                        <div className="rounded-xl border border-[#1B2B45] bg-[#050B18] p-6">
-                            <h3 className="text-xl font-semibold text-[#F8FAFC]">
-                            Our Mission
-                            </h3>
-                            <p className="mt-3 text-[#94A3B8] leading-7">
-                            Build a trusted platform where developers can discover quality
-                            resources, improve their skills, and grow together.
-                            </p>
-                        </div>
-
-                        <div className="rounded-xl border border-[#1B2B45] bg-[#050B18] p-6">
-                            <h3 className="text-xl font-semibold text-[#F8FAFC]">
-                            Our Vision
-                            </h3>
-                            <p className="mt-3 text-[#94A3B8] leading-7">
-                            Create a global developer ecosystem that encourages continuous
-                            learning, collaboration, and innovation.
-                            </p>
-                        </div>
-
-                        <div className="rounded-xl border border-[#1B2B45] bg-[#050B18] p-6">
-                            <h3 className="text-xl font-semibold text-[#F8FAFC]">
-                            Our Values
-                            </h3>
-                            <p className="mt-3 text-[#94A3B8] leading-7">
-                            Quality, accessibility, innovation, and community are at the heart of
-                            everything we create.
-                            </p>
-                        </div>
-
-                        </div>
-
                     </div>
                 </section>
 
-                {/* Founder Profile Section */}
-                <section className="min-h-screen flex items-center justify-center px-4 py-20">
-                <div className="max-w-5xl w-full">
+                {/* Company Introduction Section */}
+                <section className="min-h-screen flex items-center py-24 px-4 md:px-6">
+                <div className="max-w-5xl mx-auto text-center">
 
-                    {/* Heading */}
-                    <div className="text-center">
-
-                    <span className="inline-flex items-center rounded-full border border-[#1B2B45] bg-[#050B18] px-4 py-1 text-sm font-medium text-[#60A5FA]">
-                        MEET THE FOUNDER
+                    {/* Badge */}
+                    <span className="inline-flex items-center rounded-full border border-[#1B2B45] bg-[#050B18] px-5 py-1.5 text-sm font-medium tracking-widest text-[#60A5FA]">
+                    ABOUT CRAFTDEX
                     </span>
 
-                    <h2 className="mt-6 text-4xl md:text-5xl font-bold text-[#F8FAFC]">
-                        Behind
-                        <span className="block text-[#3B82F6]">
-                        CraftDex
-                        </span>
-                    </h2>
+                    {/* Main Heading */}
+                    <h1 className="mt-10 text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] tracking-tighter text-[#F8FAFC]">
+                    Empowering Developers
+                    <span className="block text-[#3B82F6] mt-2">
+                        Through Knowledge &amp; Innovation
+                    </span>
+                    </h1>
 
-                    <p className="mt-5 max-w-2xl mx-auto text-lg text-[#94A3B8]">
-                        Passionate about creating developer-first experiences, open-source
-                        projects, and modern web applications.
+                    {/* Description */}
+                    <p className="mx-auto mt-10 max-w-3xl text-lg md:text-xl text-[#94A3B8] leading-relaxed">
+                    At CraftDex, we believe every developer deserves access to high-quality learning resources, 
+                    modern tools, and practical guidance. Our mission is to simplify the journey by curating 
+                    the best technologies, tutorials, and real-world solutions in one seamless platform.
                     </p>
 
-                    </div>
+                    {/* Highlights Grid */}
+                    <div className="mt-20 grid md:grid-cols-3 gap-6 md:gap-8">
 
-                    {/* Profile Card */}
-                    <div className="relative mt-20">
+                    {[
+                        {
+                        title: "Our Mission",
+                        desc: "Build a trusted platform where developers can discover quality resources, sharpen their skills, and grow together."
+                        },
+                        {
+                        title: "Our Vision",
+                        desc: "Create a global developer ecosystem that encourages continuous learning, collaboration, and bold innovation."
+                        },
+                        {
+                        title: "Our Values",
+                        desc: "Quality, accessibility, transparency, and community-first thinking are at the heart of everything we build."
+                        }
+                    ].map((item, index) => (
+                        <div
+                        key={index}
+                        className="group relative rounded-3xl border border-[#1B2B45] bg-[#050B18] p-8 md:p-10 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#3B82F6]/60"
+                        >
+                        {/* Subtle accent line */}
+                        <div className="h-0.5 w-12 bg-gradient-to-r from-[#3B82F6] to-transparent mb-8 transition-all group-hover:w-16" />
 
-                    {/* Background Glow */}
-                    <div className="absolute inset-0 bg-[#3B82F6]/10 blur-3xl rounded-full"></div>
-
-                    <div className="relative rounded-3xl border border-[#1B2B45] bg-[#050B18] px-8 py-14">
-
-                        {/* Avatar */}
-                        <div className="flex justify-center">
-
-                        <div className="relative">
-
-                            <div className="absolute inset-0 rounded-full bg-[#3B82F6]/30 blur-xl"></div>
-
-                            <img
-                            // src="https://via.placeholder.com/180"
-                            alt="Founder"
-                            className="relative w-40 h-40 rounded-full object-cover border-4 border-[#3B82F6]"
-                            />
-
-                        </div>
-
-                        </div>
-
-                        {/* Name */}
-                        <div className="text-center mt-8">
-
-                        <h3 className="text-3xl md:text-4xl font-bold text-[#F8FAFC]">
-                            John Doe
+                        <h3 className="text-2xl font-semibold text-white tracking-tight">
+                            {item.title}
                         </h3>
 
-                        <p className="mt-2 text-lg text-[#3B82F6]">
-                            Founder • Full Stack Developer
+                        <p className="mt-5 text-[#94A3B8] leading-relaxed">
+                            {item.desc}
                         </p>
-
                         </div>
-
-                        {/* Quote */}
-                        <blockquote className="mt-8 max-w-3xl mx-auto text-center text-[#CBD5E1] italic text-lg leading-8">
-                        "I believe great software isn't just about writing code—it's about
-                        solving real problems and empowering developers to build with
-                        confidence."
-                        </blockquote>
-
-                        {/* Divider */}
-                        <div className="w-24 h-px bg-[#1B2B45] mx-auto my-10"></div>
-
-                        {/* Stats */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-                        <div className="text-center">
-                            <h4 className="text-3xl font-bold text-[#3B82F6]">5+</h4>
-                            <p className="mt-2 text-[#94A3B8]">Years</p>
-                        </div>
-
-                        <div className="text-center">
-                            <h4 className="text-3xl font-bold text-[#3B82F6]">50+</h4>
-                            <p className="mt-2 text-[#94A3B8]">Projects</p>
-                        </div>
-
-                        <div className="text-center">
-                            <h4 className="text-3xl font-bold text-[#3B82F6]">100+</h4>
-                            <p className="mt-2 text-[#94A3B8]">Articles</p>
-                        </div>
-
-                        <div className="text-center">
-                            <h4 className="text-3xl font-bold text-[#3B82F6]">10K+</h4>
-                            <p className="mt-2 text-[#94A3B8]">Community</p>
-                        </div>
-
-                        </div>
-
-                        {/* Skills */}
-                        <div className="mt-12">
-
-                        <h4 className="text-center text-xl font-semibold text-[#F8FAFC]">
-                            Tech Stack
-                        </h4>
-
-                        <div className="mt-6 flex flex-wrap justify-center gap-3">
-
-                            {[
-                            "React",
-                            "Next.js",
-                            "Node.js",
-                            "Express",
-                            "MongoDB",
-                            "Tailwind CSS",
-                            "TypeScript",
-                            "Docker",
-                            "AWS"
-                            ].map((skill) => (
-                            <span
-                                key={skill}
-                                className="rounded-full border border-[#1B2B45] bg-[#0B1425] px-5 py-2 text-sm text-[#CBD5E1] hover:border-[#3B82F6] transition"
-                            >
-                                {skill}
-                            </span>
-                            ))}
-
-                        </div>
-
-                        </div>
-
-                        {/* Buttons */}
-                        <div className="mt-12 flex flex-wrap justify-center gap-4">
-
-                        <button className="rounded-lg bg-[#3B82F6] px-6 py-3 text-white font-medium hover:bg-[#2563EB] transition">
-                            View Portfolio
-                        </button>
-
-                        <button className="rounded-lg border border-[#1B2B45] px-6 py-3 text-[#CBD5E1] hover:bg-[#101B30] transition">
-                            Download Resume
-                        </button>
-
-                        <button className="rounded-lg border border-[#1B2B45] px-6 py-3 text-[#CBD5E1] hover:bg-[#101B30] transition">
-                            Contact
-                        </button>
-
-                        </div>
+                    ))}
 
                     </div>
 
+                    {/* Optional Trust Bar */}
+                    <div className="mt-20 flex justify-center">
+                    <div className="flex items-center gap-8 text-sm text-[#64748B]">
+                        <div>❤️ Loved by developers</div>
+                        <div className="w-px h-3 bg-[#1B2B45]" />
+                        <div>Built with passion in India</div>
+                    </div>
                     </div>
 
                 </div>
                 </section>
 
                 {/* Mission Section */}
-                <section className="min-h-screen py-24 px-6">
+                <section className="min-h-screen py-24 px-4 md:px-6">
+                <div className="max-w-5xl mx-auto">
 
-                    <div className="max-w-5xl mx-auto">
+                    {/* Header */}
+                    <div className="text-center max-w-3xl mx-auto">
+                    <span className="inline-flex rounded-full border border-[#1B2B45] bg-[#050B18] px-5 py-1.5 text-sm font-medium tracking-widest text-[#60A5FA]">
+                        OUR MISSION
+                    </span>
 
-                        {/* Heading */}
-                        <div className="text-center">
+                    <h2 className="mt-8 text-5xl md:text-6xl font-semibold tracking-tighter leading-tight text-[#F8FAFC]">
+                        The Journey We’re
+                        <span className="block text-[#3B82F6]">Building Towards</span>
+                    </h2>
 
-                            <span className="inline-flex rounded-full border border-[#1B2B45] bg-[#050B18] px-4 py-1 text-sm text-[#60A5FA]">
-                                OUR MISSION
-                            </span>
+                    <p className="mt-8 text-[#94A3B8] text-lg md:text-xl leading-relaxed">
+                        Every great platform starts with a single idea. CraftDex is on a mission to become the 
+                        ultimate ecosystem where developers don’t just learn — they build, collaborate, and innovate together.
+                    </p>
+                    </div>
 
-                            <h2 className="mt-6 text-5xl font-bold text-[#F8FAFC]">
-                                The Journey We're
-                                <span className="block text-[#3B82F6]">
-                                    Building Towards
-                                </span>
-                            </h2>
+                    {/* Timeline */}
+                    <div className="relative mt-20 md:mt-28">
 
-                            <p className="mt-6 text-[#94A3B8] max-w-3xl mx-auto leading-8">
-                                Every great platform starts with a single idea. CraftDex is on a
-                                mission to become the ultimate ecosystem where developers don't
-                                just learn—they build, collaborate, and innovate together.
+                    {/* Vertical Line */}
+                    <div className="absolute left-1/2 top-6 bottom-6 w-px bg-gradient-to-b from-transparent via-[#1B2B45] to-transparent hidden md:block" />
+
+                    {[
+                        {
+                        icon: "🌱",
+                        title: "Today",
+                        text: "Curating the highest quality resources and tools for developers."
+                        },
+                        {
+                        icon: "📚",
+                        title: "Learning Hub",
+                        text: "Interactive tutorials, structured roadmaps, and real-world project guides."
+                        },
+                        {
+                        icon: "🤝",
+                        title: "Community",
+                        text: "Connecting developers across the globe to learn and grow together."
+                        },
+                        {
+                        icon: "🤖",
+                        title: "AI Assistant",
+                        text: "Personalized learning paths and intelligent code assistance."
+                        },
+                        {
+                        icon: "🚀",
+                        title: "The Future",
+                        text: "A complete developer ecosystem — powerful, intuitive, and built for speed."
+                        }
+                    ].map((item, index) => (
+                        <div
+                        key={item.title}
+                        className={`relative flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-16 md:mb-20 last:mb-0 ${
+                            index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                        }`}
+                        >
+                        {/* Content Card */}
+                        <div className={`w-full md:w-5/12 ${index % 2 === 0 ? "md:ml-auto" : "md:mr-auto"}`}>
+                            <div className="rounded-3xl border border-[#1B2B45] bg-[#050B18] p-8 md:p-10 transition-all duration-300 hover:border-[#3B82F6]/60 group">
+                            
+                            <div className="text-5xl mb-6 transition-transform group-hover:scale-110">
+                                {item.icon}
+                            </div>
+
+                            <h3 className="text-3xl font-semibold text-white tracking-tight">
+                                {item.title}
+                            </h3>
+
+                            <p className="mt-4 text-[#94A3B8] leading-relaxed">
+                                {item.text}
                             </p>
-
+                            </div>
                         </div>
 
-                        {/* Timeline */}
-
-                        <div className="relative mt-24">
-
-                            {/* Center Line */}
-
-                            <div className="absolute left-1/2 top-0 h-full w-px bg-[#1B2B45] -translate-x-1/2"></div>
-
-                            {[
-                                {
-                                    icon: "🌱",
-                                    title: "Today",
-                                    text: "Curating quality resources for developers."
-                                },
-                                {
-                                    icon: "📚",
-                                    title: "Learning Hub",
-                                    text: "Interactive tutorials, roadmaps and project guides."
-                                },
-                                {
-                                    icon: "🤝",
-                                    title: "Community",
-                                    text: "Connect developers across the globe."
-                                },
-                                {
-                                    icon: "🤖",
-                                    title: "AI Assistant",
-                                    text: "Personalized learning powered by AI."
-                                },
-                                {
-                                    icon: "🚀",
-                                    title: "Future",
-                                    text: "A complete developer ecosystem."
-                                }
-                            ].map((item, index) => (
-
-                                <div
-                                    key={item.title}
-                                    className={`relative mb-20 flex ${
-                                        index % 2 === 0 ? "justify-start" : "justify-end"
-                                    }`}
-                                >
-
-                                    <div className="w-full md:w-5/12">
-
-                                        <div className="rounded-2xl border border-[#1B2B45] bg-[#050B18] p-6">
-
-                                            <div className="text-4xl">
-                                                {item.icon}
-                                            </div>
-
-                                            <h3 className="mt-4 text-2xl font-bold text-[#F8FAFC]">
-                                                {item.title}
-                                            </h3>
-
-                                            <p className="mt-3 text-[#94A3B8] leading-7">
-                                                {item.text}
-                                            </p>
-
-                                        </div>
-
-                                    </div>
-
-                                    {/* Circle */}
-
-                                    <div className="absolute left-1/2 top-8 -translate-x-1/2">
-
-                                        <div className="h-5 w-5 rounded-full border-4 border-[#3B82F6] bg-[#050B18]"></div>
-
-                                    </div>
-
-                                </div>
-
-                            ))}
-
+                        {/* Timeline Dot */}
+                        <div className="absolute left-1/2 top-10 -translate-x-1/2 hidden md:block">
+                            <div className="h-6 w-6 rounded-full border-[5px] border-[#3B82F6] bg-[#050B18] shadow-lg shadow-[#3B82F6]/20" />
                         </div>
+
+                        {/* Connector Dot for Mobile */}
+                        <div className="md:hidden w-5 h-5 rounded-full border-4 border-[#3B82F6] bg-[#050B18] mx-auto" />
+                        </div>
+                    ))}
 
                     </div>
 
+                </div>
                 </section>
 
             </div>

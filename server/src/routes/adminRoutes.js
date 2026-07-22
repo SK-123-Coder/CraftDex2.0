@@ -1,3 +1,4 @@
+// Admin route handler
 import express from "express";
 import { verifyAdminPassword } from "../controller/adminController.js";
 

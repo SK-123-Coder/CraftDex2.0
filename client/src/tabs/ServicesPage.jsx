@@ -12,7 +12,7 @@ function ServicesPage(){
 
     // ===================================================================================================================
 
-    // Handling document bar and focuse effect behaviour
+    // Handling behaviour for blured top & bottom bar effect
     const [show, setShow] = useState(true);
 
     const setValue = (state) => {
@@ -42,81 +42,131 @@ function ServicesPage(){
             `}
             />
 
-            <section className="min-h-screen py-24 px-6 flex items-center">
+            {/* ================= Services ================= */}
+            <section className="relative overflow-hidden py-28 px-6">
 
-                {/* Services Grid */}
-                <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
-
-                {[
-                    {
-                        icon: "🖼️",
-                        title: "Image to PDF Converter",
-                        desc: "Convert JPG, PNG, WEBP, and other image formats into high-quality PDF files instantly.",
-                        badge: "Available",
-                        color: "text-blue-400",
-                        button: "Open →",
-                        path: "/imagetopdf"
-                    },
-                    {
-                        icon: "📊",
-                        title: "LogChart",
-                        desc: "A modern SaaS platform for visualizing, monitoring, and analyzing application logs.",
-                        badge: "Coming Soon",
-                        color: "text-orange-400",
-                        button: "Coming Soon",
-                        path: null
-                    }
-                ].map((service) => (
-                    <div
-                    key={service.title}
-                    className="group relative overflow-hidden rounded-3xl border border-[#1B2B45] bg-[#050B18] p-7 transition-all duration-300 hover:-translate-y-2 hover:border-[#3B82F6]/60 hover:shadow-[0_0_40px_rgba(59,130,246,.18)]"
-                    >
-                    {/* Glow */}
-                    <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-[#3B82F6]/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-
-                    {/* Badge */}
-                    <span className="inline-flex rounded-full border border-[#1B2B45] bg-[#0B1220] px-3 py-1 text-xs text-[#60A5FA]">
-                        {service.badge}
-                    </span>
-
-                    {/* Icon */}
-                    <div className="mt-6 text-5xl">
-                        {service.icon}
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="mt-6 text-2xl font-semibold text-[#F8FAFC]">
-                        {service.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="mt-4 text-[#94A3B8] leading-7">
-                        {service.desc}
-                    </p>
-
-                    {/* Footer */}
-                    <div className="mt-8 flex items-center justify-between">
-                        <span className={`text-sm font-medium ${service.color}`}>
-                        {service.badge === "Available" ? "Ready to Use" : "Launching Soon"}
-                        </span>
-
-                        <button
-                        disabled={service.badge === "Coming Soon"}
-                        onClick={() => service.path && navigate(service.path)}
-                        className={`rounded-xl border px-4 py-2 text-sm transition ${
-                            service.badge === "Coming Soon"
-                            ? "cursor-not-allowed border-[#1B2B45] bg-[#0B1220] text-[#64748B]"
-                            : "border-[#1B2B45] text-[#E2E8F0] hover:border-[#3B82F6] hover:bg-[#3B82F6]/10"
-                        }`}
-                        >
-                        {service.button}
-                        </button>
-                    </div>
-                    </div>
-                ))}
-
+                {/* Background Glow */}
+                <div className="absolute inset-0 -z-10">
+                    <div className="absolute left-1/2 top-20 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-500/10 blur-[140px]" />
+                    <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px]" />
                 </div>
 
+                <div className="mx-auto max-w-6xl">
+
+                    {/* Heading */}
+                    <div className="mx-auto mb-20 max-w-2xl text-center hidden md:block">
+
+                        <span className="inline-flex rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1 text-sm text-blue-400">
+                            Our Services
+                        </span>
+
+                        <h2 className="mt-6 text-5xl font-bold tracking-tight text-white">
+                            Powerful tools built for
+                            <span className="text-blue-400"> creators & developers</span>
+                        </h2>
+
+                        <p className="mt-6 text-lg leading-8 text-slate-400">
+                            Explore products designed with performance, simplicity,
+                            and modern workflows in mind.
+                        </p>
+
+                    </div>
+
+                    {/* Cards */}
+                    <div className="grid gap-8 md:grid-cols-2">
+
+                        {[
+                            {
+                                icon: "🖼️",
+                                title: "Image to PDF Converter",
+                                desc: "Convert JPG, PNG, WEBP and more into high-quality PDF documents in seconds. Fast, secure and completely browser-based.",
+                                badge: "Available",
+                                color: "text-emerald-400",
+                                button: "Launch App",
+                                path: "/imagetopdf",
+                            },
+                            {
+                                icon: "🚀",
+                                title: "DexOne",
+                                desc: "An AI-native software development platform that unifies planning, coding, testing, documentation, deployment, and automation into one intelligent workspace for developers and teams.",
+                                badge: "Coming Soon",
+                                color: "text-orange-400",
+                                button: "Coming Soon",
+                                path: null,
+                            },
+                        ].map((service) => (
+                            <div
+                                key={service.title}
+                                className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-950/70 p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-blue-500/40 hover:shadow-[0_20px_60px_rgba(59,130,246,0.15)]"
+                            >
+                                {/* Hover Glow */}
+                                <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-blue-500/10 opacity-0 blur-3xl transition duration-500 group-hover:opacity-100" />
+
+                                {/* Badge */}
+                                <span
+                                    className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${
+                                        service.badge === "Available"
+                                            ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
+                                            : "border-orange-500/20 bg-orange-500/10 text-orange-400"
+                                    }`}
+                                >
+                                    {service.badge}
+                                </span>
+
+                                {/* Icon */}
+                                <div className="mt-8 text-6xl transition-transform duration-300 group-hover:scale-110">
+                                    {service.icon}
+                                </div>
+
+                                {/* Title */}
+                                <h3 className="mt-8 text-3xl font-semibold text-white">
+                                    {service.title}
+                                </h3>
+
+                                {/* Description */}
+                                <p className="mt-5 leading-8 text-slate-400">
+                                    {service.desc}
+                                </p>
+
+                                {/* Divider */}
+                                <div className="my-8 border-t border-slate-800" />
+
+                                {/* Footer */}
+                                <div className="flex items-center justify-between">
+
+                                    <div>
+                                        <p className={`text-sm font-medium ${service.color}`}>
+                                            {service.badge === "Available"
+                                                ? "Ready to Use"
+                                                : "Launching Soon"}
+                                        </p>
+
+                                        <p className="mt-1 text-xs text-slate-500">
+                                            {service.badge === "Available"
+                                                ? "Instant access"
+                                                : "Stay tuned"}
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        disabled={service.badge === "Coming Soon"}
+                                        onClick={() =>
+                                            service.path && navigate(service.path)
+                                        }
+                                        className={`rounded-xl px-5 py-3 font-medium transition-all duration-300 ${
+                                            service.badge === "Coming Soon"
+                                                ? "cursor-not-allowed bg-slate-900 text-slate-500"
+                                                : "bg-blue-500 text-white hover:scale-105 hover:bg-blue-600 active:scale-95"
+                                        }`}
+                                    >
+                                        {service.button}
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+
+                    </div>
+                </div>
             </section>
 
 

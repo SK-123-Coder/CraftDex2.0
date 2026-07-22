@@ -10,6 +10,9 @@ import NotificationModal from '../component/NotificationModal'
 
 function SignupPage(){
 
+  // ===================================================================================================================
+
+  // Handle input feild and supabase login info
   const navigate = useNavigate();
 
   const [modal, setModal] = useState({
@@ -18,7 +21,6 @@ function SignupPage(){
       title: "",
       message: "",
   });
-
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -90,6 +92,9 @@ function SignupPage(){
       }
   };
 
+  // ===================================================================================================================
+
+  // Handle google OAuth
   const handleGoogleAuth = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -102,6 +107,8 @@ function SignupPage(){
       console.error(error.message);
     }
   };
+
+  // ===================================================================================================================
 
     return(
         <div>

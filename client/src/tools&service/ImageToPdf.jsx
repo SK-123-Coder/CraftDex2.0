@@ -125,7 +125,7 @@ function ImageToPdf(){
 
   return(
     <>
-    <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 to-gray-950 flex items-center justify-center px-4 py-6 relative pt-25">
+    <div className="min-h-screen w-full flex items-center justify-center px-4 py-6 relative pt-25">
 
       {/* Floating Back Button */}
       <button

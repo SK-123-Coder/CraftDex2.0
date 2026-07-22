@@ -1,3 +1,5 @@
+// logged-in user's session available to every component
+
 import { createContext, useEffect, useState } from "react";
 import supabase from "./supabaseConfig.js";
 
