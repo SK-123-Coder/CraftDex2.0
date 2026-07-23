@@ -12,57 +12,25 @@ import { AuthContext } from '../config/AuthProvider.jsx'
 
 function NavBarSection({ onShowChange }){
 
+    // get session id from local storage
+    const session = useContext(AuthContext);
+
     // ===================================================================================================================
 
     // For mobile menu toggle or scroll event optimization
     const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-    const handleScroll = () => {
-        setMenuOpen(false);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-        window.removeEventListener("scroll", handleScroll);
-    };
-    }, []);
-
-    // ===================================================================================================================
-
     // Hiding behaviour while upward scrolling
     const [show, setShow] = useState(true);
+
+    // For profile dropdown icons behaviour
+    const [isOpen, setIsOpen] = useState(false);
+
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         let lastScrollY = window.scrollY;
 
-        const handleScroll = () => {
-        if (window.scrollY > lastScrollY) {
-            // Scrolling down → hide
-            setShow(false);
-            onShowChange?.(false);
-        } else {
-            // Scrolling up → show
-            setShow(true);
-            onShowChange?.(true);
-        }
-
-        lastScrollY = window.scrollY;
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    // ===================================================================================================================
-
-    // For profile dropdown icons behaviour
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    useEffect(() => {
         const handleClickOutside = (e) => {
             if (
                 dropdownRef.current &&
@@ -73,7 +41,24 @@ function NavBarSection({ onShowChange }){
         };
 
         const handleScroll = () => {
+            // Close mobile menu
+            setMenuOpen(false);
+
+            // Close dropdown
             setIsOpen(false);
+
+            // Navbar show/hide
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY) {
+                setShow(false);
+                onShowChange?.(false);
+            } else {
+                setShow(true);
+                onShowChange?.(true);
+            }
+
+            lastScrollY = currentScrollY;
         };
 
         document.addEventListener("mousedown", handleClickOutside);
@@ -83,54 +68,51 @@ function NavBarSection({ onShowChange }){
             document.removeEventListener("mousedown", handleClickOutside);
             window.removeEventListener("scroll", handleScroll, true);
         };
-    }, []);
+    }, [onShowChange]);
 
     // ===================================================================================================================
 
-    // get session id from local storage
-    const session = useContext(AuthContext);
-
-    // ===================================================================================================================
-
-    // For admin login
+    // For admin navigation
     const navigate = useNavigate();
 
+    // server api
     const API = import.meta.env.VITE_API_URL;
 
     const [showAdminModal, setShowAdminModal] = useState(false);
     const [password, setPassword] = useState("");
 
+    // Admin verification api handling
     const handleAdminLogin = async () => {
-    try {
-        const res = await fetch(`${API}/api/adminlogin`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password }),
-        });
+        try {
+            const res = await fetch(`${API}/api/adminlogin`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ password }),
+            });
 
-        const data = await res.json();
+            const data = await res.json();
 
-        if (res.ok) {
-        setShowAdminModal(false);
-        setPassword("");
-        navigate("/dashboard");
-        } else {
-        alert(data.message || "Invalid password");
+            if (res.ok) {
+            setShowAdminModal(false);
+            setPassword("");
+            navigate("/dashboard");
+            } else {
+            alert(data.message || "Invalid password");
+            }
+        } catch (err) {
+            console.error("Admin Login Error:", err);
+            alert(err.message);
         }
-    } catch (err) {
-    console.error("Admin Login Error:", err);
-    alert(err.message);
-}
     };
 
-    useEffect(() => {  // Prevent from scrooling
-    document.body.style.overflow = showAdminModal ? "hidden" : "auto";
+    useEffect(() => {  // Prevent from scrooling when admin login form open
+        document.body.style.overflow = showAdminModal ? "hidden" : "auto";
 
-    return () => {
-        document.body.style.overflow = "auto";
-    };
+        return () => {
+            document.body.style.overflow = "auto";
+        };
     }, [showAdminModal]);
 
     // ===================================================================================================================

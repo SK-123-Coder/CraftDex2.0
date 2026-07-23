@@ -1,5 +1,7 @@
 // Dependencies
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { AuthContext } from './config/AuthProvider.jsx'
 
 // Tabs
 import LandingPage from './tabs/LandingPage'
@@ -22,6 +24,26 @@ import ImageToPdf from './tools&service/ImageToPdf'
 
 
 function App() {
+
+  // ===================================================================================================================
+
+    // get session id from local storage
+    const session = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (session) {
+        // Store session (or part of it)
+        sessionStorage.setItem("session", JSON.stringify(session));
+
+        // Redirect
+        navigate("/services", { replace: true });
+      }
+    }, [session]);
+
+  // ===================================================================================================================
+
   return (
     <div className="min-h-dvh bg-[linear-gradient(90deg,#102548_0%,#0D1328_55%,#1F1A44_100%)]">
 
