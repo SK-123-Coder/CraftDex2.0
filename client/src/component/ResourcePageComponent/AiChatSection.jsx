@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -9,8 +9,6 @@ import { FaArrowUp } from "react-icons/fa";
 // Component
 import TypewriterMarkdown from "./TypewriterMarkdown";
 
-const API_KEY = import.meta.env.VITE_GROQ_API_KEY;  // Model api
-
 function AiChatSection({rightSection, onKeyboardChange }){
 
     // ===================================================================================================================
@@ -18,23 +16,27 @@ function AiChatSection({rightSection, onKeyboardChange }){
     // Provide documentation .md file to API model
     const [docs, setDocs] = useState("");
 
-    const loadDocs = async () => {
+    useEffect(() => {
+    async function loadDocs() {
         const files = [
         "/docs/faq/faq.md",
-        "/docs/craftdex/introduction.md",
-        "/docs/imagetopdf/introduction.md",
-        "/docs/logchart/introduction.md",
+        "/docs/craftdex/IntroductionOfCraftdex.md",
+        "/docs/imagetopdf/IntroductionOfITPC.md",
+        "/docs/logchart/IntroductionOfLogchart.md",
         ];
 
         const contents = await Promise.all(
-            files.map(async (file) => {
-                const res = await fetch(file);
-                return await res.text();
-            })
+        files.map(async (file) => {
+            const res = await fetch(file);
+            return await res.text();
+        })
         );
 
         setDocs(contents.join("\n\n-----------------\n\n"));
-    };
+    }
+
+    loadDocs();
+    }, []);
 
     // ===================================================================================================================
 
@@ -51,127 +53,121 @@ function AiChatSection({rightSection, onKeyboardChange }){
     const chatContainerRef = useRef(null);
     const [autoScroll, setAutoScroll] = useState(true);
 
-    const systemPrompt = useMemo( () => `
-        You are CraftDex AI Assistant.
-
-        Your role is to assist users with both the CraftDex application and general knowledge.
-
-        ## Personality
-        - Friendly, professional, and helpful.
-        - Answer naturally like ChatGPT.
-        - Keep responses concise unless the user asks for more detail.
-        - Format responses using Markdown.
-
-        ## Documentation Rules
-
-        When a question is about CraftDex, its features, APIs, installation, configuration, usage, troubleshooting, or documentation:
-
-        - Use ONLY the documentation provided below.
-        - Never invent undocumented features.
-        - If the answer isn't available in the documentation, reply:
-
-        "I couldn't find that information in the CraftDex documentation."
-
-        ## General Knowledge
-
-        If the question is NOT related to CraftDex documentation, you may answer normally using your own knowledge.
-
-        Examples:
-        - Programming (Python, JavaScript, React, Java, C++, SQL, etc.)
-        - Web development
-        - Algorithms
-        - Career guidance
-        - Basic mathematics
-        - Science
-        - Technology
-        - Greetings and casual conversation
-
-        ## Important
-
-        If a question mentions CraftDex or its features, always prioritize the documentation instead of your own knowledge.
-
-        Documentation:
-
-    ${docs}`, [docs] );
+    const API_KEY = import.meta.env.VITE_GROQ_API_KEY;  // Model api
 
     useEffect(() => {
         scrollToBottom();
     }, [messages, autoScroll]);
 
     // Send's query to model and protocol of ethics
-    const sendMessage = useCallback( async () => {
+    const sendMessage = async () => {
+        if (!message.trim() || loading) return;
 
-            if (!message.trim() || loading) return;
+        const userMessage = {
+        role: "user",
+        content: message,
+        };
 
-            const userMessage = {
-            role: "user",
-            content: message,
-            };
+        const updatedMessages = [...messages, userMessage];
 
-            const updatedMessages = [...messages, userMessage];
+        setMessages(updatedMessages);
+        setMessage("");
+        setLoading(true);
 
-            setMessages(updatedMessages);
-            setMessage("");
-            setLoading(true);
+        try {
+        const response = await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${API_KEY}`,
+            },
+            body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: [
+                {
+                role: "system",
+                content: `
+                You are CraftDex AI Assistant.
 
-            try {
-                const response = await fetch(
-                    "https://api.groq.com/openai/v1/chat/completions",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${API_KEY}`,
-                        },
-                        body: JSON.stringify({
-                            model: "llama-3.3-70b-versatile",
-                            messages: [
-                                {
-                                role: "system",
-                                content:systemPrompt
-                                },
-                                ...updatedMessages,
-                            ],
-                        })
-                    }
-                );
+                Your role is to assist users with both the CraftDex application and general knowledge.
 
-                if (!response.ok) {
-                    throw new Error("API request failed");
-                }
+                ## Personality
+                - Friendly, professional, and helpful.
+                - Answer naturally like ChatGPT.
+                - Keep responses concise unless the user asks for more detail.
+                - Format responses using Markdown.
 
-                const data = await response.json();
+                ## Documentation Rules
 
-                const aiMessage = {
-                    role: "assistant",
-                    content:
-                    data?.choices?.[0]?.message?.content ||
-                    "Sorry, I couldn't generate a response.",
-                };
+                When a question is about CraftDex, its features, APIs, installation, configuration, usage, troubleshooting, or documentation:
 
-                setMessages((prev) => {
-                    const updated = [...prev, aiMessage];
+                - Use ONLY the documentation provided below.
+                - Never invent undocumented features.
+                - If the answer isn't available in the documentation, reply:
 
-                    setTypingIndex(updated.length - 1);
+                "I couldn't find that information in the CraftDex documentation."
 
-                    return updated;
-                });
+                ## General Knowledge
 
-            } catch (error) {
-                setMessages((prev) => [
-                    ...prev,
-                    {
-                    role: "assistant",
-                    content: "Something went wrong. Please try again.",
-                    },
-                ]);
+                If the question is NOT related to CraftDex documentation, you may answer normally using your own knowledge.
 
-                console.error(error);
-            } finally {
-                setLoading(false);
+                Examples:
+                - Programming (Python, JavaScript, React, Java, C++, SQL, etc.)
+                - Web development
+                - Algorithms
+                - Career guidance
+                - Basic mathematics
+                - Science
+                - Technology
+                - Greetings and casual conversation
+
+                ## Important
+
+                If a question mentions CraftDex or its features, always prioritize the documentation instead of your own knowledge.
+
+                Documentation:
+
+                ${docs}
+                `
+                },
+                ...updatedMessages,
+            ],
+            })
             }
+        );
+
+        const data = await response.json();
+
+        const aiMessage = {
+            role: "assistant",
+            content:
+            data?.choices?.[0]?.message?.content ||
+            "Sorry, I couldn't generate a response.",
+        };
+
+        setMessages((prev) => {
+            const updated = [...prev, aiMessage];
+
+            setTypingIndex(updated.length - 1);
+
+            return updated;
+        });
+        } catch (error) {
+        setMessages((prev) => [
+            ...prev,
+            {
+            role: "assistant",
+            content: "Something went wrong. Please try again.",
+            },
+        ]);
+
+        console.error(error);
         }
-    );
+
+        setLoading(false);
+    };
 
     // button
     const handleKeyDown = (e) => {
