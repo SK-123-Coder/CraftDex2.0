@@ -52,28 +52,41 @@ function UpdatePassword(){
 
         setLoading(true);
 
-        const { error } = await supabase.auth.updateUser({
-            password,
-        });
+        try {
+            const { error } = await supabase.auth.updateUser({
+                password,
+            });
 
-        setLoading(false);
+            if (error) {
+                setModal({
+                    open: true,
+                    type: "error",
+                    title: "Update Failed",
+                    message: error.message,
+                });
+                return;
+            }
 
-        if (error) {
+            setModal({
+                open: true,
+                type: "success",
+                title: "Password Updated",
+                message: "Your password has been updated successfully.",
+            });
+
+        } catch (err) {
+            console.error("Unexpected error:", err);
+
             setModal({
                 open: true,
                 type: "error",
-                title: "Update Failed",
-                message: error.message,
+                title: "Unexpected Error",
+                message: "Something went wrong. Please try again.",
             });
-            return;
-        }
 
-        setModal({
-            open: true,
-            type: "success",
-            title: "Password Updated",
-            message: "Your password has been updated successfully.",
-        });
+        } finally {
+            setLoading(false);
+        }
     };
 
     // ===================================================================================================================

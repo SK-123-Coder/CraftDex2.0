@@ -22,33 +22,47 @@ function AccountRecovery(){
         message: "",
     });
 
+    // Handle account verification for password maneagement
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setLoading(true);
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: "http://localhost:5173/update-password",
-        });
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: "http://localhost:5173/update-password",
+            });
 
-        setLoading(false);
+            if (error) {
+                setModal({
+                    open: true,
+                    type: "error",
+                    title: "Password Reset Failed",
+                    message: error.message,
+                });
+                return;
+            }
 
-        if (error) {
+            setModal({
+                open: true,
+                type: "success",
+                title: "Email Sent",
+                message: "Password reset link has been sent to your email.",
+            });
+
+        } catch (err) {
+            console.error("Unexpected error:", err);
+
             setModal({
                 open: true,
                 type: "error",
-                title: "Password Reset Failed",
-                message: error.message,
+                title: "Something Went Wrong",
+                message: "An unexpected error occurred. Please try again later.",
             });
-            return;
-        }
 
-        setModal({
-            open: true,
-            type: "success",
-            title: "Email Sent",
-            message: "Password reset link has been sent to your email.",
-        });
+        } finally {
+            setLoading(false);
+        }
     };
 
     // ===================================================================================================================

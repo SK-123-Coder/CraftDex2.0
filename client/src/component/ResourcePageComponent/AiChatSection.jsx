@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -9,6 +9,8 @@ import { FaArrowUp } from "react-icons/fa";
 // Component
 import TypewriterMarkdown from "./TypewriterMarkdown";
 
+const API_KEY = import.meta.env.VITE_GROQ_API_KEY;  // Model api
+
 function AiChatSection({rightSection, onKeyboardChange }){
 
     // ===================================================================================================================
@@ -16,8 +18,7 @@ function AiChatSection({rightSection, onKeyboardChange }){
     // Provide documentation .md file to API model
     const [docs, setDocs] = useState("");
 
-    useEffect(() => {
-    async function loadDocs() {
+    const loadDocs = async () => {
         const files = [
         "/docs/faq/faq.md",
         "/docs/craftdex/introduction.md",
@@ -26,17 +27,14 @@ function AiChatSection({rightSection, onKeyboardChange }){
         ];
 
         const contents = await Promise.all(
-        files.map(async (file) => {
-            const res = await fetch(file);
-            return await res.text();
-        })
+            files.map(async (file) => {
+                const res = await fetch(file);
+                return await res.text();
+            })
         );
 
         setDocs(contents.join("\n\n-----------------\n\n"));
-    }
-
-    loadDocs();
-    }, []);
+    };
 
     // ===================================================================================================================
 
@@ -53,121 +51,127 @@ function AiChatSection({rightSection, onKeyboardChange }){
     const chatContainerRef = useRef(null);
     const [autoScroll, setAutoScroll] = useState(true);
 
-    const API_KEY = import.meta.env.VITE_GROQ_API_KEY;  // Model api
+    const systemPrompt = useMemo( () => `
+        You are CraftDex AI Assistant.
+
+        Your role is to assist users with both the CraftDex application and general knowledge.
+
+        ## Personality
+        - Friendly, professional, and helpful.
+        - Answer naturally like ChatGPT.
+        - Keep responses concise unless the user asks for more detail.
+        - Format responses using Markdown.
+
+        ## Documentation Rules
+
+        When a question is about CraftDex, its features, APIs, installation, configuration, usage, troubleshooting, or documentation:
+
+        - Use ONLY the documentation provided below.
+        - Never invent undocumented features.
+        - If the answer isn't available in the documentation, reply:
+
+        "I couldn't find that information in the CraftDex documentation."
+
+        ## General Knowledge
+
+        If the question is NOT related to CraftDex documentation, you may answer normally using your own knowledge.
+
+        Examples:
+        - Programming (Python, JavaScript, React, Java, C++, SQL, etc.)
+        - Web development
+        - Algorithms
+        - Career guidance
+        - Basic mathematics
+        - Science
+        - Technology
+        - Greetings and casual conversation
+
+        ## Important
+
+        If a question mentions CraftDex or its features, always prioritize the documentation instead of your own knowledge.
+
+        Documentation:
+
+    ${docs}`, [docs] );
 
     useEffect(() => {
-    scrollToBottom();
+        scrollToBottom();
     }, [messages, autoScroll]);
 
     // Send's query to model and protocol of ethics
-    const sendMessage = async () => {
-        if (!message.trim() || loading) return;
+    const sendMessage = useCallback( async () => {
 
-        const userMessage = {
-        role: "user",
-        content: message,
-        };
+            if (!message.trim() || loading) return;
 
-        const updatedMessages = [...messages, userMessage];
+            const userMessage = {
+            role: "user",
+            content: message,
+            };
 
-        setMessages(updatedMessages);
-        setMessage("");
-        setLoading(true);
+            const updatedMessages = [...messages, userMessage];
 
-        try {
-        const response = await fetch(
-            "https://api.groq.com/openai/v1/chat/completions",
-            {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${API_KEY}`,
-            },
-            body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
-            messages: [
-                {
-                role: "system",
-                content: `
-                You are CraftDex AI Assistant.
+            setMessages(updatedMessages);
+            setMessage("");
+            setLoading(true);
 
-                Your role is to assist users with both the CraftDex application and general knowledge.
+            try {
+                const response = await fetch(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${API_KEY}`,
+                        },
+                        body: JSON.stringify({
+                            model: "llama-3.3-70b-versatile",
+                            messages: [
+                                {
+                                role: "system",
+                                content:systemPrompt
+                                },
+                                ...updatedMessages,
+                            ],
+                        })
+                    }
+                );
 
-                ## Personality
-                - Friendly, professional, and helpful.
-                - Answer naturally like ChatGPT.
-                - Keep responses concise unless the user asks for more detail.
-                - Format responses using Markdown.
+                if (!response.ok) {
+                    throw new Error("API request failed");
+                }
 
-                ## Documentation Rules
+                const data = await response.json();
 
-                When a question is about CraftDex, its features, APIs, installation, configuration, usage, troubleshooting, or documentation:
+                const aiMessage = {
+                    role: "assistant",
+                    content:
+                    data?.choices?.[0]?.message?.content ||
+                    "Sorry, I couldn't generate a response.",
+                };
 
-                - Use ONLY the documentation provided below.
-                - Never invent undocumented features.
-                - If the answer isn't available in the documentation, reply:
+                setMessages((prev) => {
+                    const updated = [...prev, aiMessage];
 
-                "I couldn't find that information in the CraftDex documentation."
+                    setTypingIndex(updated.length - 1);
 
-                ## General Knowledge
+                    return updated;
+                });
 
-                If the question is NOT related to CraftDex documentation, you may answer normally using your own knowledge.
+            } catch (error) {
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                    role: "assistant",
+                    content: "Something went wrong. Please try again.",
+                    },
+                ]);
 
-                Examples:
-                - Programming (Python, JavaScript, React, Java, C++, SQL, etc.)
-                - Web development
-                - Algorithms
-                - Career guidance
-                - Basic mathematics
-                - Science
-                - Technology
-                - Greetings and casual conversation
-
-                ## Important
-
-                If a question mentions CraftDex or its features, always prioritize the documentation instead of your own knowledge.
-
-                Documentation:
-
-                ${docs}
-                `
-                },
-                ...updatedMessages,
-            ],
-            })
+                console.error(error);
+            } finally {
+                setLoading(false);
             }
-        );
-
-        const data = await response.json();
-
-        const aiMessage = {
-            role: "assistant",
-            content:
-            data?.choices?.[0]?.message?.content ||
-            "Sorry, I couldn't generate a response.",
-        };
-
-        setMessages((prev) => {
-            const updated = [...prev, aiMessage];
-
-            setTypingIndex(updated.length - 1);
-
-            return updated;
-        });
-        } catch (error) {
-        setMessages((prev) => [
-            ...prev,
-            {
-            role: "assistant",
-            content: "Something went wrong. Please try again.",
-            },
-        ]);
-
-        console.error(error);
         }
-
-        setLoading(false);
-    };
+    );
 
     // button
     const handleKeyDown = (e) => {
@@ -189,26 +193,26 @@ function AiChatSection({rightSection, onKeyboardChange }){
     };
 
     const handleScroll = () => {
-    const container = chatContainerRef.current;
-    if (!container) return;
+        const container = chatContainerRef.current;
+        if (!container) return;
 
-    const threshold = 80; // px
+        const threshold = 80; // px
 
-    const isNearBottom =
-        container.scrollHeight -
-        container.scrollTop -
-        container.clientHeight <
-        threshold;
+        const isNearBottom =
+            container.scrollHeight -
+            container.scrollTop -
+            container.clientHeight <
+            threshold;
 
-    setAutoScroll(isNearBottom);
+        setAutoScroll(isNearBottom);
     };
 
     const scrollToBottom = () => {
-    if (!autoScroll) return;
+        if (!autoScroll) return;
 
-    messagesEndRef.current?.scrollIntoView({
-        behavior: "smooth",
-    });
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+        });
     };
 
     // ===================================================================================================================

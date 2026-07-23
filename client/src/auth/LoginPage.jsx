@@ -28,57 +28,95 @@ function LoginPage(){
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    setLoading(true);
+        setLoading(true);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-    });
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-    if (error) {
-        
-        setModal({
-        open: true,
-        type: "error",
-        title: "Login Failed",
-        message: error.message,
-        });
+            if (error) {
+                setModal({
+                    open: true,
+                    type: "error",
+                    title: "Login Failed",
+                    message: error.message,
+                });
+                return;
+            }
 
-        setLoading(false);
-        return;
-    }
+            setModal({
+                open: true,
+                type: "success",
+                title: "Login Successful",
+                message: "Welcome back! Redirecting to your dashboard...",
+            });
 
-    setModal({
-        open: true,
-        type: "success",
-        title: "Login Successful",
-        message: "Welcome back! Redirecting to your dashboard...",
-    });
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
 
-    setTimeout(() => {
-        navigate("/");
-    }, 2000);
+        } catch (err) {
+            console.error("Unexpected error:", err);
 
-    setLoading(false);
+            setModal({
+                open: true,
+                type: "error",
+                title: "Something Went Wrong",
+                message: "An unexpected error occurred. Please try again later.",
+            });
 
+        } finally {
+            setLoading(false);
+        }
     };
 
     // ===================================================================================================================
 
+    // Handle google Oauth
+    const [googleLoading, setGoogleLoading] = useState(false);
+
     // Handle google OAuth
     const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-        redirectTo: window.location.origin,
-        },
-    });
+        setGoogleLoading(true);
 
-    if (error) {
-        console.error(error.message);
-    }
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                    redirectTo: window.location.origin,
+                },
+            });
+
+            if (error) {
+                setModal({
+                    open: true,
+                    type: "error",
+                    title: "Google Login Failed",
+                    message: error.message,
+                });
+                return;
+            }
+
+            // On success, Supabase redirects to Google.
+            // No need to set loading to false here because
+            // the page is about to navigate away.
+
+        } catch (err) {
+            console.error("Unexpected error:", err);
+
+            setModal({
+                open: true,
+                type: "error",
+                title: "Something Went Wrong",
+                message: "An unexpected error occurred. Please try again later.",
+            });
+
+            setGoogleLoading(false);
+        }
     };
 
     // ===================================================================================================================
@@ -226,17 +264,47 @@ function LoginPage(){
 
                 {/* Google */}
                 <button
-                type="button"
-                onClick={handleGoogleLogin}
-                className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-3 font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-800"
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    disabled={googleLoading}
+                    className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-3 font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                <img
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
-                    alt="Google"
-                    className="h-5 w-5"
-                />
+                    {googleLoading ? (
+                        <>
+                            <svg
+                                className="h-5 w-5 animate-spin"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                />
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                />
+                            </svg>
 
-                Continue with Google
+                            Redirecting...
+                        </>
+                    ) : (
+                        <>
+                            <img
+                                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                alt="Google"
+                                className="h-5 w-5"
+                            />
+
+                            Continue with Google
+                        </>
+                    )}
                 </button>
 
                 {/* Footer */}

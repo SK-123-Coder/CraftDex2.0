@@ -1,7 +1,5 @@
-// logged-in user's session available to every component
-
 import { createContext, useEffect, useState } from "react";
-import supabase from "./supabaseConfig.js";
+import supabase from "../config/supabaseConfig.js";
 
 export const AuthContext = createContext();
 
@@ -23,7 +21,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={session}>
+    <AuthContext.Provider value={{ session, setSession }}>
       {children}
     </AuthContext.Provider>
   );

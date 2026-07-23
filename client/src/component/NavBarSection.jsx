@@ -8,12 +8,13 @@ import { NavLink, useNavigate  } from "react-router-dom";
 import { FaUser, FaCog } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
-import { AuthContext } from '../config/AuthProvider.jsx'
+// Context file
+import { AuthContext } from '../context/AuthProvider.jsx'
 
 function NavBarSection({ onShowChange }){
 
     // get session id from local storage
-    const session = useContext(AuthContext);
+    const { session } = useContext(AuthContext);
 
     // ===================================================================================================================
 

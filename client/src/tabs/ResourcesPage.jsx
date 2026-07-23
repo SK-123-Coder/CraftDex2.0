@@ -1,5 +1,5 @@
 // Dependencies
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 // Componenrt
@@ -44,19 +44,19 @@ function ResourcesPage(){
     const [markdown, setMarkdown] = useState("");
 
     useEffect(() => {
-    if (!selectedFile) return;
+        if (!selectedFile) return;
 
-    const url = `/docs/${selectedFile}`;
+        async function loadMarkdown() {
+            try {
+                const res = await fetch(`/docs/${selectedFile}`);
+                const text = await res.text();
+                setMarkdown(text);
+            } catch (err) {
+                console.error(err);
+            }
+        }
 
-    fetch(url)
-        .then(async (res) => {
-
-        const text = await res.text();
-        // console.log(text);
-
-        setMarkdown(text);
-        })
-        .catch(console.error);
+        loadMarkdown();
     }, [selectedFile]);
 
     // ===================================================================================================================
@@ -66,12 +66,16 @@ function ResourcesPage(){
 
     const query = search.toLowerCase();
 
-    const filteredDocs = docs.filter(doc =>
-    doc.title.toLowerCase().includes(query) ||
-    (doc.keywords || []).some(keyword =>
-        keyword.toLowerCase().includes(query)
-    )
-    );
+    const filteredDocs = useMemo(() => {
+        const query = search.toLowerCase();
+
+        return docs.filter(doc =>
+            doc.title.toLowerCase().includes(query) ||
+            (doc.keywords || []).some(keyword =>
+                keyword.toLowerCase().includes(query)
+            )
+        );
+    }, [search]);
 
     // ===================================================================================================================
 

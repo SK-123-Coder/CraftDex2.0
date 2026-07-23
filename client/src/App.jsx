@@ -1,7 +1,6 @@
 // Dependencies
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { AuthContext } from './config/AuthProvider.jsx'
 
 // Tabs
 import LandingPage from './tabs/LandingPage'
@@ -22,15 +21,15 @@ import DashboardPage from './dashboard/DashboardPage'
 // Tools & Services
 import ImageToPdf from './tools&service/ImageToPdf'
 
+// Context file
+import {AuthContext} from './context/AuthProvider.jsx'
 
 function App() {
 
   // ===================================================================================================================
 
-    // get session id from local storage
-    const session = useContext(AuthContext);
-
     const navigate = useNavigate();
+    const { session } = useContext(AuthContext);
 
     useEffect(() => {
       if (session) {
