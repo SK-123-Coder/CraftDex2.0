@@ -140,6 +140,29 @@ function AiChatSection({rightSection, onKeyboardChange }){
 
         const data = await response.json();
 
+        // Handle API errors
+        if (!response.ok) {
+            let errorMessage = "Something went wrong. Please try again.";
+
+            if (data?.error?.code === "rate_limit_exceeded") {
+                errorMessage =
+                    "⚠️ Daily AI limit reached. Please try again later or after your quota resets.";
+            } else if (data?.error?.message) {
+                errorMessage = data.error.message;
+            }
+
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: "assistant",
+                    content: errorMessage,
+                },
+            ]);
+
+            setLoading(false);
+            return;
+        }
+
         const aiMessage = {
             role: "assistant",
             content:
@@ -212,7 +235,6 @@ function AiChatSection({rightSection, onKeyboardChange }){
     };
 
     // ===================================================================================================================
-
 
     return(
         <div
