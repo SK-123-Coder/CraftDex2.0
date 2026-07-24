@@ -16,7 +16,7 @@ import { AuthContext } from '../context/AuthProvider.jsx'
 function SettingsPage() {
 
     // Get session id from client browser storage
-    const session = useContext(AuthContext);
+    const { session, setSession } = useContext(AuthContext);
 
     return (
       <div>
@@ -66,7 +66,7 @@ function SettingsPage() {
             <div className="mt-10 rounded-3xl border border-[#1B2B45] bg-[#0B1220] p-8 md:p-12">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h2 className="text-3xl font-semibold text-white">Personal AI</h2>
+                  <h2 className="text-3xl font-semibold text-white">Personal AI ( Inactive )</h2>
                   <p className="text-[#94A3B8] mt-1.5">
                     Use your own API keys and models
                   </p>

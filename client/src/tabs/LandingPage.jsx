@@ -1,5 +1,6 @@
 // Dependencies
 import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 // Componenrt
 import NavBarSection from '../component/NavBarSection'
@@ -17,6 +18,8 @@ function LandingPage(){
     };
 
     // ===================================================================================================================
+
+    const navigate = useNavigate();
 
     return(
         <div>
@@ -81,11 +84,15 @@ function LandingPage(){
 
                         {/* Buttons */}
                         <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4">
-                            <button className="w-full sm:w-auto rounded-lg bg-[#3B82F6] px-6 py-3 font-medium text-white transition-colors hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
+                            <button 
+                            onClick={() => navigate('/services')}
+                            className="w-full sm:w-auto rounded-lg bg-[#3B82F6] px-6 py-3 font-medium text-white transition-colors hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
                                 Get Started
                             </button>
 
-                            <button className="w-full sm:w-auto rounded-lg border border-[#1B2B45] px-6 py-3 font-medium text-[#CBD5E1] transition-colors hover:bg-[#101B30] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
+                            <button 
+                            onClick={() => navigate('/resources')}
+                            className="w-full sm:w-auto rounded-lg border border-[#1B2B45] px-6 py-3 font-medium text-[#CBD5E1] transition-colors hover:bg-[#101B30] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
                                 Explore Resources
                             </button>
                         </div>
@@ -335,7 +342,9 @@ function LandingPage(){
                                 built to help developers ship faster.
                             </p>
 
-                            <button className="mt-10 rounded-xl bg-[#3B82F6] px-6 py-3 font-medium text-white transition hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
+                            <button 
+                            onClick={() => navigate('/services')}
+                            className="mt-10 rounded-xl bg-[#3B82F6] px-6 py-3 font-medium text-white transition hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
                                 Explore Platform
                             </button>
                         </div>

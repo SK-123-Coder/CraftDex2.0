@@ -24,6 +24,9 @@ import ImageToPdf from './tools&service/ImageToPdf'
 // Context file
 import {AuthContext} from './context/AuthProvider.jsx'
 
+// Component
+import ProtectedRoute  from './component/ProtectedRoute.jsx'
+
 function App() {
 
   // ===================================================================================================================
@@ -54,15 +57,19 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/services" element={<ServicesPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/imagetopdf" element={<ImageToPdf />} />
+        </Route>
+
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/accountrecovery" element={<AccountRecovery />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/setting" element={<SettingsPage />} />
         <Route path="/update-password" element={<UpdatePassword />} />
-        <Route path="/imagetopdf" element={<ImageToPdf />} />
       </Routes>
     </div>
   )

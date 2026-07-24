@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 const SOCKET_URL = import.meta.env.VITE_API_URL;
 
 let visitorId = localStorage.getItem("visitorId");
-console.log(visitorId)
 
 if (!visitorId) {
   visitorId = uuidv4();
