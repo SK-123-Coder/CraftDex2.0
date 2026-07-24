@@ -55,35 +55,36 @@ let dailyUsers = new Set();
 let currentDate = new Date().toDateString();
 
 io.on("connection", (socket) => {
-  // console.log("✅ New socket connection");
-  // console.log("Socket ID:", socket.id);
-  // console.log("Auth:", socket.handshake.auth);
-  // console.log("Origin:", socket.handshake.headers.origin);
+    const visitorId = socket.handshake.auth.visitorId;
 
-  const today = new Date().toDateString();
+    const today = new Date().toDateString();
+    if (today !== currentDate) {
+        currentDate = today;
+        dailyUsers.clear();
+    }
 
-  if (today !== currentDate) {
-    currentDate = today;
-    dailyUsers.clear();
-  }
+    onlineUsers++;
 
-  const visitorId = socket.handshake.auth.visitorId;
+    if (visitorId) {
+        dailyUsers.add(visitorId);
+    }
 
-  onlineUsers++;
-  // console.log("Online Users:", onlineUsers);
-  io.emit("userCount", onlineUsers);
-
-  if (visitorId) {
-    dailyUsers.add(visitorId);
-    // console.log("Daily Users:", dailyUsers.size);
-    io.emit("dailyActiveUsers", dailyUsers.size);
-  }
-
-  socket.on("disconnect", (reason) => {
-    // console.log("❌ Socket disconnected:", reason);
-    onlineUsers--;
+    // 🔥 Broadcast to EVERY connected client
     io.emit("userCount", onlineUsers);
-  });
+    io.emit("dailyActiveUsers", dailyUsers.size);
+
+    // Initial value for newly connected client
+    socket.on("getUserStats", () => {
+        socket.emit("userCount", onlineUsers);
+        socket.emit("dailyActiveUsers", dailyUsers.size);
+    });
+
+    socket.on("disconnect", () => {
+        onlineUsers--;
+
+        io.emit("userCount", onlineUsers);
+        io.emit("dailyActiveUsers", dailyUsers.size);
+    });
 });
 
 // =======================================================================================================

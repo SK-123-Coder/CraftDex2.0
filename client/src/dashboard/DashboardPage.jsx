@@ -14,16 +14,24 @@ function DashboardPage(){
     // =======================================================================================================
 
     // For user analytics fetching live user count and daily active users count from backend using socket.io
-    const [users, setUsers] = useState(0); // Live count
-    const [dailyUsers, setDailyUsers] = useState(0);  // daily count
+    const [users, setUsers] = useState(0);
+    const [dailyUsers, setDailyUsers] = useState(0);
 
     useEffect(() => {
+        socket.on("connect", () => {
+            socket.emit("getUserStats");
+        });
+
         socket.on("userCount", setUsers);
         socket.on("dailyActiveUsers", setDailyUsers);
 
+        if (socket.connected) {
+            socket.emit("getUserStats");
+        }
+
         return () => {
-            socket.off("userCount");
-            socket.off("dailyActiveUsers");
+            socket.off("userCount", setUsers);
+            socket.off("dailyActiveUsers", setDailyUsers);
         };
     }, []);
 

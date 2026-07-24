@@ -495,44 +495,52 @@ function NavBarSection({ onShowChange }){
             </div>
 
             {showAdminModal && (
-            <div className="fixed inset-0 z-[9999] flex min-h-screen w-screen items-center justify-center bg-black/80 backdrop-blur-sm">
-                <div className="w-full max-w-md rounded-2xl border border-[#1B2B45] bg-[#050B18] p-8 shadow-2xl">
-                <h2 className="text-2xl font-bold text-white">
-                    Administrator Login
-                </h2>
-
-                <p className="mt-2 text-sm text-gray-400">
-                    Enter the administrator password to continue.
-                </p>
-
-                <input
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="mt-6 w-full rounded-lg border border-[#1B2B45] bg-[#0B1220] px-4 py-3 text-white outline-none focus:border-blue-500"
-                />
-
-                <div className="mt-6 flex justify-end gap-3">
-                    <button
-                    onClick={() => {
-                        setShowAdminModal(false);
-                        setPassword("");
-                    }}
-                    className="rounded-lg border border-gray-600 px-4 py-2 text-gray-300 hover:bg-gray-800"
+                <div className="fixed inset-0 z-[9999] flex min-h-screen w-screen items-center justify-center bg-black/80 backdrop-blur-sm">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleAdminLogin();
+                        }}
+                        className="w-full max-w-md rounded-2xl border border-[#1B2B45] bg-[#050B18] p-8 shadow-2xl"
                     >
-                    Cancel
-                    </button>
+                        <h2 className="text-2xl font-bold text-white">
+                            Administrator Login
+                        </h2>
 
-                    <button
-                    onClick={handleAdminLogin}
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                    >
-                    Login
-                    </button>
+                        <p className="mt-2 text-sm text-gray-400">
+                            Enter the administrator password to continue.
+                        </p>
+
+                        <input
+                            type="password"
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="mt-6 w-full rounded-lg border border-[#1B2B45] bg-[#0B1220] px-4 py-3 text-white outline-none focus:border-blue-500"
+                            autoFocus
+                        />
+
+                        <div className="mt-6 flex justify-end gap-3">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowAdminModal(false);
+                                    setPassword("");
+                                }}
+                                className="rounded-lg border border-gray-600 px-4 py-2 text-gray-300 hover:bg-gray-800"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                            >
+                                Login
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                </div>
-            </div>
             )}
         </nav>
     )

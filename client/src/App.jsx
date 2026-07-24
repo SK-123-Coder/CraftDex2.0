@@ -1,5 +1,5 @@
 // Dependencies
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect } from "react";
 
 // Tabs
@@ -30,15 +30,20 @@ function App() {
 
     const navigate = useNavigate();
     const { session } = useContext(AuthContext);
+    const location = useLocation();
 
     useEffect(() => {
-      if (session) {
-        // Store session (or part of it)
-        sessionStorage.setItem("session", JSON.stringify(session));
+      if (!session) return;
 
-        // Redirect
-        navigate("/services", { replace: true });
-      }
+      // Store session
+      sessionStorage.setItem("session", JSON.stringify(session));
+
+      // Skip redirect for dashboard routes
+      if (location.pathname.startsWith("/dashboard")) return;
+
+      // Redirect everywhere else
+      navigate("/services", { replace: true });
+
     }, [session]);
 
   // ===================================================================================================================
