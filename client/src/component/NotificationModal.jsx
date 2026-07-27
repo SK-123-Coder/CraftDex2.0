@@ -7,6 +7,7 @@ export default function NotificationModal({
     message,
     type = "info",
     buttonText = "OK",
+    onButtonClick,
 }) {
     if (!isOpen) return null;
 
@@ -70,20 +71,17 @@ export default function NotificationModal({
         info: "bg-blue-500 hover:bg-blue-600",
     };
 
+    const handleClick = () => {
+        onButtonClick?.();
+        onClose?.();
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#020617]/80 backdrop-blur-md px-4">
             <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-[#1B2B45] bg-gradient-to-br from-[#08111F] to-[#0B1220] shadow-[0_20px_80px_rgba(0,0,0,.55)]">
 
                 {/* Top Glow */}
                 <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 via-sky-400 to-indigo-500"></div>
-
-                {/* Close */}
-                <button
-                    onClick={onClose}
-                    className="absolute right-5 top-5 rounded-lg p-2 text-slate-500 transition hover:bg-white/5 hover:text-white"
-                >
-                    ✕
-                </button>
 
                 <div className="px-8 py-10">
 
@@ -118,7 +116,7 @@ export default function NotificationModal({
 
                     {/* Button */}
                     <button
-                        onClick={onClose}
+                        onClick={handleClick}
                         className={`w-full rounded-xl py-3.5 font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-95 ${buttonColors[type]}`}
                     >
                         {buttonText}

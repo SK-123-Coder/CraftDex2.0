@@ -38,6 +38,7 @@ function NavBarSection({ onShowChange }){
                 !dropdownRef.current.contains(e.target)
             ) {
                 setIsOpen(false);
+                setMenuOpen(false)
             }
         };
 
@@ -64,6 +65,8 @@ function NavBarSection({ onShowChange }){
 
         document.addEventListener("mousedown", handleClickOutside);
         window.addEventListener("scroll", handleScroll, true);
+        
+        console.log('from 1st useEffect')
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -95,6 +98,8 @@ function NavBarSection({ onShowChange }){
 
             const data = await res.json();
 
+            console.log('from fetch api')
+
             if (res.ok) {
             setShowAdminModal(false);
             setPassword("");
@@ -110,6 +115,8 @@ function NavBarSection({ onShowChange }){
 
     useEffect(() => {  // Prevent from scrooling when admin login form open
         document.body.style.overflow = showAdminModal ? "hidden" : "auto";
+
+        console.log('from useEffect of scroll prevention')
 
         return () => {
             document.body.style.overflow = "auto";

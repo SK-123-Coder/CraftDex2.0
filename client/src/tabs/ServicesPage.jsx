@@ -180,11 +180,6 @@ function ServicesPage(){
                 h-40 md:h-15
                 bg-gradient-to-t from-[#0B1220] via-[#0B1220]/40
                 transition-all duration-500 ease-in-out
-                ${
-                show
-                    ? "opacity-0 -translate-y-4 pointer-events-none"
-                    : "opacity-100 translate-y-0"
-                }
             `}
             />
             

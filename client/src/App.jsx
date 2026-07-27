@@ -35,14 +35,25 @@ function App() {
     const { session } = useContext(AuthContext);
     const location = useLocation();
 
+    const publicRoutes = [
+      "/dashboard",
+      "/login",
+      "/signup",
+      "/accountrecovery",
+      "/update-password",
+    ];
+    
     useEffect(() => {
       if (!session) return;
 
-      // Store session
-      sessionStorage.setItem("session", JSON.stringify(session));
-
       // Skip redirect for dashboard routes
-      if (location.pathname.startsWith("/dashboard")) return;
+      const isExcludedRoute = publicRoutes.some((route) =>
+        location.pathname.startsWith(route)
+      );
+
+      if (isExcludedRoute) return;
+
+      // console.log('Session fetch in app')
 
       // Redirect everywhere else
       navigate("/services", { replace: true });

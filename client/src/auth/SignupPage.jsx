@@ -15,18 +15,68 @@ function SignupPage(){
   // Handle input feild and supabase login info
   const navigate = useNavigate();
 
-  const [modal, setModal] = useState({
-      open: false,
-      type: "info",
-      title: "",
-      message: "",
-  });
+    const [modal, setModal] = useState({
+        open: false,
+        type: "info",
+        title: "",
+        message: "",
+        buttonText: "OK",
+        onButtonClick: null,
+    });
+
+  // ===================================================================================================================
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const showModal = ({
+      type = "info",
+      title = "",
+      message = "",
+      buttonText = "OK",
+      onButtonClick = null,
+      autoCloseSeconds = 0,
+  }) => {
+      setModal({
+          open: true,
+          type,
+          title,
+          message,
+          buttonText: autoCloseSeconds
+              ? `${buttonText} (${autoCloseSeconds})`
+              : buttonText,
+          onButtonClick,
+      });
+
+      if (autoCloseSeconds > 0) {
+          let seconds = autoCloseSeconds;
+
+          const interval = setInterval(() => {
+              seconds--;
+
+              if (seconds > 0) {
+                  setModal(prev => ({
+                      ...prev,
+                      buttonText: `${buttonText} (${seconds})`,
+                  }));
+              } else {
+                  clearInterval(interval);
+
+                  if (onButtonClick) {
+                      onButtonClick();
+                  }
+
+                  setModal(prev => ({
+                      ...prev,
+                      open: false,
+                  }));
+              }
+          }, 1000);
+      }
+  };
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -50,17 +100,22 @@ function SignupPage(){
                   type: "error",
                   title: "Sign Up Failed",
                   message: error.message,
+                  buttonText: "OK",
+                  onButtonClick: () => navigate("/signup"),
+                  autoCloseSeconds: 3,
               });
               return;
           }
 
           if (data.user && !data.session) {
-              setModal({
-                  open: true,
+              showModal({
                   type: "success",
                   title: "Verify Your Email",
                   message:
-                      "Your account has been created successfully. Please check your email and click the verification link before signing in.",
+                      "Your account has been created successfully.\n\nPlease check your email and click the verification link to activate your account. Once your email has been verified, you can safely close this tab and sign in from the app.",
+                  buttonText: "OK",
+                  onButtonClick: () => navigate("/services"),
+                  autoCloseSeconds: 3,
               });
               return;
           }
@@ -70,11 +125,10 @@ function SignupPage(){
               type: "success",
               title: "Account Created",
               message: "Welcome to CraftDex! Redirecting...",
+              buttonText: "OK",
+              onButtonClick: () => navigate("/services"),
+              autoCloseSeconds: 3,
           });
-
-          setTimeout(() => {
-              navigate("/");
-          }, 2000);
 
       } catch (err) {
           console.error("Unexpected error:", err);
@@ -84,6 +138,9 @@ function SignupPage(){
               type: "error",
               title: "Unexpected Error",
               message: "Something went wrong. Please try again.",
+              buttonText: "OK",
+              onButtonClick: () => navigate("/login"),
+              autoCloseSeconds: 3,
           });
 
       } finally {

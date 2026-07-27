@@ -20,12 +20,62 @@ function LoginPage(){
         type: "info",
         title: "",
         message: "",
+        buttonText: "OK",
+        onButtonClick: null,
     });
+
+    // ===================================================================================================================
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const [loading, setLoading] = useState(false);
+
+    const showModal = ({
+        type = "info",
+        title = "",
+        message = "",
+        buttonText = "OK",
+        onButtonClick = null,
+        autoCloseSeconds = 0,
+    }) => {
+        setModal({
+            open: true,
+            type,
+            title,
+            message,
+            buttonText: autoCloseSeconds
+                ? `${buttonText} (${autoCloseSeconds})`
+                : buttonText,
+            onButtonClick,
+        });
+
+        if (autoCloseSeconds > 0) {
+            let seconds = autoCloseSeconds;
+
+            const interval = setInterval(() => {
+                seconds--;
+
+                if (seconds > 0) {
+                    setModal(prev => ({
+                        ...prev,
+                        buttonText: `${buttonText} (${seconds})`,
+                    }));
+                } else {
+                    clearInterval(interval);
+
+                    if (onButtonClick) {
+                        onButtonClick();
+                    }
+
+                    setModal(prev => ({
+                        ...prev,
+                        open: false,
+                    }));
+                }
+            }, 1000);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,26 +88,28 @@ function LoginPage(){
                 password,
             });
 
+            console.log(data)
+
             if (error) {
-                setModal({
-                    open: true,
+                showModal({
                     type: "error",
                     title: "Login Failed",
                     message: error.message,
+                    buttonText: "OK",
+                    onButtonClick: () => navigate("/login"),
+                    autoCloseSeconds: 3,
                 });
                 return;
             }
 
-            setModal({
-                open: true,
+            showModal({
                 type: "success",
                 title: "Login Successful",
-                message: "Welcome back! Redirecting to your dashboard...",
+                message: "Welcome back!",
+                buttonText: "OK",
+                onButtonClick: () => navigate("/services"),
+                autoCloseSeconds: 3,
             });
-
-            setTimeout(() => {
-                navigate("/");
-            }, 2000);
 
         } catch (err) {
             console.error("Unexpected error:", err);
@@ -67,6 +119,9 @@ function LoginPage(){
                 type: "error",
                 title: "Something Went Wrong",
                 message: "An unexpected error occurred. Please try again later.",
+                buttonText: "OK",
+                onButtonClick: () => navigate("/login"),
+                autoCloseSeconds: 3,
             });
 
         } finally {
@@ -331,12 +386,8 @@ function LoginPage(){
                 type={modal.type}
                 title={modal.title}
                 message={modal.message}
-                onClose={() =>
-                setModal((prev) => ({
-                    ...prev,
-                    open: false,
-                }))
-                }
+                buttonText={modal.buttonText}
+                onButtonClick={modal.onButtonClick}
             />
         </div>
     )
