@@ -1,5 +1,5 @@
 // Dependencies
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 
 // Componenrt
@@ -40,23 +40,46 @@ function ResourcesPage(){
     // ===================================================================================================================
 
     // Render .md file on middle section with toggle & search feature
-    const [selectedFile, setSelectedFile] = useState("craftdex/IntroductionOfCraftdex.md");
+    const [selectedFile, setSelectedFile] = useState(
+    "craftdex/IntroductionOfCraftdex.md"
+    );
     const [markdown, setMarkdown] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const cache = useRef({});
 
     useEffect(() => {
-        if (!selectedFile) return;
+    if (!selectedFile) return;
 
-        async function loadMarkdown() {
-            try {
-                const res = await fetch(`/docs/${selectedFile}`);
-                const text = await res.text();
-                setMarkdown(text);
-            } catch (err) {
-                console.error(err);
-            }
+    async function loadMarkdown() {
+        // If already cached, load instantly
+        if (cache.current[selectedFile]) {
+        setMarkdown(cache.current[selectedFile]);
+        return;
         }
 
-        loadMarkdown();
+        setLoading(true);
+
+        try {
+        const res = await fetch(`/docs/${selectedFile}`);
+
+        if (!res.ok) {
+            throw new Error("Failed to load markdown");
+        }
+
+        const text = await res.text();
+
+        cache.current[selectedFile] = text;
+        setMarkdown(text);
+        } catch (err) {
+        console.error(err);
+        setMarkdown("# Failed to load document");
+        } finally {
+        setLoading(false);
+        }
+    }
+
+    loadMarkdown();
     }, [selectedFile]);
 
     // ===================================================================================================================
@@ -237,15 +260,20 @@ function ResourcesPage(){
                     />
 
                     {/* docs section */}
-                    <div 
-                        className={`rounded-2xl border bg-[#050B18] text-[#E2E8F0] overflow-hidden
-                        ${
+                    <div
+                    className={`rounded-2xl border bg-[#050B18] text-[#E2E8F0] overflow-hidden ${
                         leftSection || rightSection
-                            ? "hidden"
-                            : "p-8 border-[#1B2B45]"
-                        }`}
+                        ? "hidden"
+                        : "p-8 border-[#1B2B45]"
+                    }`}
                     >
+                    {loading ? (
+                        <div className="flex items-center justify-center h-64">
+                        <p className="text-gray-400">Loading...</p>
+                        </div>
+                    ) : (
                         <MarkdownViewer content={markdown} />
+                    )}
                     </div>
 
                     {/* Ai chat section */}

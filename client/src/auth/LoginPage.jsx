@@ -88,8 +88,6 @@ function LoginPage(){
                 password,
             });
 
-            console.log(data)
-
             if (error) {
                 showModal({
                     type: "error",

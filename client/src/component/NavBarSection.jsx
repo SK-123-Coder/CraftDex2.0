@@ -65,8 +65,6 @@ function NavBarSection({ onShowChange }){
 
         document.addEventListener("mousedown", handleClickOutside);
         window.addEventListener("scroll", handleScroll, true);
-        
-        console.log('from 1st useEffect')
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -115,8 +113,6 @@ function NavBarSection({ onShowChange }){
 
     useEffect(() => {  // Prevent from scrooling when admin login form open
         document.body.style.overflow = showAdminModal ? "hidden" : "auto";
-
-        console.log('from useEffect of scroll prevention')
 
         return () => {
             document.body.style.overflow = "auto";

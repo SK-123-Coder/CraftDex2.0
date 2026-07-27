@@ -45,20 +45,20 @@ const docsTree = [
         ]
     },{
         id:3,
-        title:'LogChart',
+        title:'DexOne',
         children:[
             {
                 id:1,
                 title:'Introduction',
-                file:'logchart/IntroductionOfLogchart.md'
+                file:'dexone/IntroductionOfDexOne.md'
             },{
                 id:2,
                 title:'Technology',
-                file:'logchart/TechnologyOfLogchart.md'
+                file:'dexone/TechnologyOfDexOne.md'
             },{
                 id:3,
                 title:'Usecase',
-                file:'logchart/UsecaseOfLogchart.md'
+                file:'dexone/UsecaseOfDexOne.md'
             }
         ]
     },{
