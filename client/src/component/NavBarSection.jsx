@@ -116,8 +116,6 @@ function NavBarSection({ onShowChange }){
 
             const data = await res.json();
 
-            console.log('from fetch api')
-
             if (res.ok) {
             setShowAdminModal(false);
             setPassword("");

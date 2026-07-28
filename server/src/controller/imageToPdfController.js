@@ -14,7 +14,6 @@ const A4_HEIGHT_PX = Math.round(11.69 * DPI); // 3508
 
 // Handle image to pdf conversion logic
 export const downloadPdf = async (req, res) => {
-  console.log('from back')
   const files = req.files;
 
   if (!files || files.length === 0) {

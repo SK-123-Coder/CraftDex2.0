@@ -53,8 +53,6 @@ function App() {
 
       if (isExcludedRoute) return;
 
-      // console.log('Session fetch in app')
-
       // Redirect everywhere else
       navigate("/services", { replace: true });
 
