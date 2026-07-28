@@ -1,8 +1,3 @@
-# Environment files
-server/.env
-client/.env
-
-# or simply
-.env
-.env.*
+**/.env
+**/.env.*
 .supabase/
