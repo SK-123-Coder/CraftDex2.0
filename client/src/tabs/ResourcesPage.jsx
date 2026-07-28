@@ -1,6 +1,6 @@
 // Dependencies
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Componenrt
 import NavBarSection from '../component/NavBarSection'
@@ -22,8 +22,11 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
-    // Handling togle between 3 section
-    const [activeSection, setActiveSection] = useState(null);
+    const location = useLocation();
+
+    const [activeSection, setActiveSection] = useState(
+        location.state?.activeSection || null
+    );
 
     const leftSection = activeSection === "left";
     const rightSection = activeSection === "right";
