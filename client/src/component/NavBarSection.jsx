@@ -139,12 +139,23 @@ function NavBarSection({ onShowChange }){
 
     // ===================================================================================================================
 
+    // Redirect user to ai chat section
+
     const handleAiClick = () => {
-        navigate("/resources", {
-            state: {
-                activeSection: "right",
-            },
-        });
+        if (location.pathname === "/resources") {
+            navigate("/resources", {
+                state: {
+                    ...location.state,
+                    activeSection: "right",
+                },
+            });
+        } else {
+            navigate("/resources", {
+                state: {
+                    activeSection: "right",
+                },
+            });
+        }
     };
 
     // ===================================================================================================================
@@ -294,7 +305,7 @@ function NavBarSection({ onShowChange }){
                                         transition-all duration-200 cursor-pointer hidden md:flex"
                             >
                                 <FaRobot className="text-base" />
-                                <span className="hidden lg:inline">CraftDex AI</span>
+                                <span className="hidden lg:inline">Dex AI</span>
                             </button>
 
                             {/* Profile */}
@@ -407,7 +418,7 @@ function NavBarSection({ onShowChange }){
                                         transition-all duration-200 cursor-pointer"
                             >
                                 <FaRobot className="text-base" />
-                                <span className="hidden lg:inline">CraftDex AI</span>
+                                <span className="hidden lg:inline">Dex AI</span>
                             </button>
 
                             <div ref={dropdownRef} className="md:hidden urelative group">

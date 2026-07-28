@@ -22,11 +22,18 @@ function ResourcesPage(){
 
     // ===================================================================================================================
 
-    const location = useLocation();
+    // Handle AI button and toggle between 3 section
 
+    const location = useLocation();
     const [activeSection, setActiveSection] = useState(
         location.state?.activeSection || null
     );
+
+    useEffect(() => {
+        if (location.state?.activeSection) {
+            setActiveSection(location.state.activeSection);
+        }
+    }, [location.state]);
 
     const leftSection = activeSection === "left";
     const rightSection = activeSection === "right";
