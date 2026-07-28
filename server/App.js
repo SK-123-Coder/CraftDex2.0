@@ -93,7 +93,7 @@ io.on("connection", (socket) => {
 
 // Default route
 app.get('/', (req, res) => {
-    res.send('Hello')
+    res.send('Hello, from craftdex server')
 })
 
 // ===================================================================================================================
