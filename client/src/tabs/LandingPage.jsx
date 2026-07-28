@@ -68,33 +68,62 @@ function LandingPage(){
                         </span>
 
                         {/* Heading */}
-                        <h1 className="mt-6 sm:mt-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] sm:leading-[1.05] tracking-tight text-[#F8FAFC] text-balance">
+                        <h1
+                            className="
+                                mt-8
+                                text-[clamp(2.2rem,7vw,5.5rem)]
+                                font-black
+                                leading-[1.05]
+                                tracking-tight
+                                text-white
+                            "
+                        >
                             Build faster with
-                            <span className="block text-[#3B82F6]">
+                            <span className="block h-12 md:h-26 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
                                 the right tools.
                             </span>
                         </h1>
 
                         {/* Description */}
-                        <p className="mx-auto mt-6 sm:mt-8 max-w-2xl text-base sm:text-lg md:text-xl leading-7 sm:leading-8 text-[#94A3B8]">
-                            CraftDex helps developers discover, compare, and understand the best tools
-                            across AI, frontend, backend, cloud, databases, and DevOps—all from one
-                            reliable source.
+                        <p className="mx-auto mt-8 max-w-3xl text-lg sm:text-xl leading-8 text-slate-400">
+                            Discover curated AI, frontend, backend, cloud, DevOps and developer
+                            tools. Compare technologies, learn best practices, and build your next
+                            project with confidence.
                         </p>
 
                         {/* Buttons */}
-                        <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4">
-                            <button 
-                            onClick={() => navigate('/services')}
-                            className="w-full sm:w-auto rounded-lg bg-[#3B82F6] px-6 py-3 font-medium text-white transition-colors hover:bg-[#2563EB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
-                                Get Started
+                        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+
+                            <button
+                                onClick={() => navigate("/services")}
+                                className="inline-flex items-center justify-center gap-2
+                                        rounded-xl
+                                        bg-[#3B82F6]
+                                        px-7 py-4
+                                        text-white
+                                        font-semibold
+                                        shadow-lg shadow-blue-500/25
+                                        hover:bg-[#2563EB]
+                                        hover:shadow-blue-500/40
+                                        transition"
+                            >
+                                🚀 Get Started
                             </button>
 
-                            <button 
-                            onClick={() => navigate('/resources')}
-                            className="w-full sm:w-auto rounded-lg border border-[#1B2B45] px-6 py-3 font-medium text-[#CBD5E1] transition-colors hover:bg-[#101B30] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]">
-                                Explore Resources
+                            <button
+                                onClick={() => navigate("/resources")}
+                                className="inline-flex items-center justify-center gap-2
+                                        rounded-xl
+                                        border border-[#1B2B45]
+                                        bg-[#0B1220]
+                                        px-7 py-4
+                                        text-slate-300
+                                        hover:bg-[#101B30]
+                                        transition"
+                            >
+                                📚 Explore Resources
                             </button>
+
                         </div>
 
                         {/* Signature: live index strip — the "Dex" made literal */}

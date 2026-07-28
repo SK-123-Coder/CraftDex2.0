@@ -293,7 +293,7 @@ function NavBarSection({ onShowChange }){
                                         hover:from-cyan-400 hover:to-blue-500
                                         hover:shadow-cyan-500/40
                                         active:scale-95
-                                        transition-all duration-200 cursor-pointer"
+                                        transition-all duration-200 cursor-pointer hidden md:flex"
                             >
                                 <FaRobot className="text-base" />
                                 <span className="hidden lg:inline">CraftDex AI</span>
@@ -392,65 +392,88 @@ function NavBarSection({ onShowChange }){
                 <div className="md:hidden">
 
                     {session ? (
-                        <div ref={dropdownRef} className="md:hidden urelative group">
-                            {/* Profile Button */}
+                        <div className="flex items-center gap-3">
+                            {/* AI Button */}
                             <button
-                                onClick={() => setIsOpen((prev) => !prev)}
-                                className="w-10 h-10 flex items-center justify-center rounded-full
-                                        bg-[#101B30]
-                                        border border-[#1B2B45]
-                                        text-slate-300
-                                        hover:bg-[#16233D]
-                                        hover:text-white
-                                        transition-all duration-200"
+                                onClick={handleAiClick}
+                                className="flex items-center gap-2
+                                        px-4 h-10
+                                        rounded-full
+                                        bg-gradient-to-r from-cyan-500 to-blue-600
+                                        text-white
+                                        font-medium text-sm
+                                        shadow-lg shadow-cyan-500/20
+                                        hover:from-cyan-400 hover:to-blue-500
+                                        hover:shadow-cyan-500/40
+                                        active:scale-95
+                                        transition-all duration-200 cursor-pointer"
                             >
-                                <FaUser className="text-sm" />
+                                <FaRobot className="text-base" />
+                                <span className="hidden lg:inline">CraftDex AI</span>
                             </button>
 
-                            {/* Dropdown */}
-                            <div
-                                className={`
-                                    absolute right-0 mt-2 w-64
-                                    rounded-xl border border-[#1B2B45]
-                                    bg-[#101B30] shadow-xl z-50
-                                    transition-all duration-200
+                            <div ref={dropdownRef} className="md:hidden urelative group">
+                                {/* Profile Button */}
+                                <button
+                                    onClick={() => setIsOpen((prev) => !prev)}
+                                    className="w-10 h-10 flex items-center justify-center rounded-full
+                                            bg-[#101B30]
+                                            border border-[#1B2B45]
+                                            text-slate-300
+                                            hover:bg-[#16233D]
+                                            hover:text-white
+                                            transition-all duration-200"
+                                >
+                                    <span className="text-sm font-semibold uppercase tracking-wide">
+                                        {profileText}
+                                    </span>
+                                </button>
 
-                                    ${
-                                        isOpen
-                                            ? "opacity-100 visible translate-y-0"
-                                            : "opacity-0 invisible -translate-y-2"
-                                    }
+                                {/* Dropdown */}
+                                <div
+                                    className={`
+                                        absolute right-2 mt-2 w-64
+                                        rounded-xl border border-[#1B2B45]
+                                        bg-[#101B30] shadow-xl z-50
+                                        transition-all duration-200
 
-                                    md:group-hover:opacity-100
-                                    md:group-hover:visible
-                                    md:group-hover:translate-y-0
-                                `}
-                            >
-                                {/* User Info */}
-                                <div className="p-4 border-b border-[#1B2B45]">
-                                    <h3 className="text-white font-semibold text-base sm:text-lg truncate">
-                                        {session?.user?.user_metadata?.name ||
-                                        session?.user?.user_metadata?.username ||
-                                        "User"}
-                                    </h3>
+                                        ${
+                                            isOpen
+                                                ? "opacity-100 visible translate-y-0"
+                                                : "opacity-0 invisible -translate-y-2"
+                                        }
 
-                                    <p className="text-slate-400 text-xs sm:text-sm truncate">
-                                        {session?.user?.email}
-                                    </p>
-                                </div>
+                                        md:group-hover:opacity-100
+                                        md:group-hover:visible
+                                        md:group-hover:translate-y-0
+                                    `}
+                                >
+                                    {/* User Info */}
+                                    <div className="p-4 border-b border-[#1B2B45]">
+                                        <h3 className="text-white font-semibold text-base sm:text-lg truncate">
+                                            {session?.user?.user_metadata?.name ||
+                                            session?.user?.user_metadata?.username ||
+                                            "User"}
+                                        </h3>
 
-                                {/* Menu */}
-                                <div className="py-2">
-                                    <Link
-                                        to="/setting"
-                                        onClick={() => setIsOpen(false)}
-                                        className="flex items-center gap-3 px-4 py-2
-                                                text-slate-300 hover:bg-[#16233D]
-                                                hover:text-white transition"
-                                    >
-                                        <FaCog className="text-lg" />
-                                        <span>Settings</span>
-                                    </Link>
+                                        <p className="text-slate-400 text-xs sm:text-sm truncate">
+                                            {session?.user?.email}
+                                        </p>
+                                    </div>
+
+                                    {/* Menu */}
+                                    <div className="py-2">
+                                        <Link
+                                            to="/setting"
+                                            onClick={() => setIsOpen(false)}
+                                            className="flex items-center gap-3 px-4 py-2
+                                                    text-slate-300 hover:bg-[#16233D]
+                                                    hover:text-white transition"
+                                        >
+                                            <FaCog className="text-lg" />
+                                            <span>Settings</span>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
