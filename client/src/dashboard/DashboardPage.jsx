@@ -45,8 +45,10 @@ function DashboardPage(){
         const fetchRegisteredUsers = async () => {
             try {
                 const res = await fetch(
-                    `${API}/api/dashboard/registered-user`
+                    `${API}/api/dashboard/registered-users`
                 );
+
+                console.log(`${API}/api/dashboard/registered-user`)
 
                 const data = await res.json();
 
