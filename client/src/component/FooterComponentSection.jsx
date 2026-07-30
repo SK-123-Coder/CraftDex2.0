@@ -1,3 +1,6 @@
+// Dependecies
+import { Link } from "react-router-dom";
+
 function FooterComponentSection(){
     return(
         <div>
@@ -10,8 +13,13 @@ function FooterComponentSection(){
 
                         {/* Brand */}
                         <div className="lg:col-span-2">
-                            <h2 className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text font-bold text-transparent text-2xl">
+                            <h2 className="text-lg md:text-xl font-bold leading-none">
+                            <Link
+                                to="/"
+                                className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent"
+                            >
                                 CraftDex
+                            </Link>
                             </h2>
 
                             <p className="mt-4 max-w-md leading-7 text-[#94A3B8]">

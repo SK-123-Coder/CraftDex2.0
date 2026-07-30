@@ -189,7 +189,7 @@ function NavBarSection({ onShowChange }){
                         e.preventDefault(); // Prevent navigation
                         setShowAdminModal(true);
                     }}
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text font-bold text-transparent text-lg md:text-xl flex justify-center items-center cursor-pointer"
+                    className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text font-bold text-transparent text-lg md:text-xl"
                     >
                     CraftDex
                     </Link>
