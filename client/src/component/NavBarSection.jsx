@@ -106,7 +106,7 @@ function NavBarSection({ onShowChange }){
     // Admin verification api handling
     const handleAdminLogin = async () => {
         try {
-            const res = await fetch(`${API}/api/adminlogin`, {
+            const res = await fetch(`${API}api/adminlogin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
