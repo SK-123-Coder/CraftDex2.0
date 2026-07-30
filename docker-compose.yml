@@ -5,23 +5,25 @@ services:
     build: ./client
     image: sarang3333/craftdex-client2.0
     container_name: react-app
-    ports:
-      - "4000:4000"
-    networks:
-      - fullstack-net
+    restart: unless-stopped
     depends_on:
       - server
-    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - fullstack-net
 
   server:
     build: ./server
     image: sarang3333/craftdex-server2.0
     container_name: server-app
+    restart: unless-stopped
     ports:
       - "3000:3000"
     networks:
       - fullstack-net
-    restart: unless-stopped
+    environment:
+      NODE_ENV: production
 
 networks:
   fullstack-net:
