@@ -91,35 +91,6 @@ function SettingsPage() {
                         <p className="mt-2 text-slate-400 text-sm sm:text-base break-all">
                             {session?.user?.email}
                         </p>
-
-                        <div className="mt-5 flex flex-wrap justify-center md:justify-start gap-3">
-
-                            <div
-                                className="inline-flex items-center gap-2
-                                          rounded-full
-                                          border border-emerald-500/30
-                                          bg-emerald-500/10
-                                          px-4 py-2"
-                            >
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                                <span className="text-sm font-medium text-emerald-300">
-                                    Online
-                                </span>
-                            </div>
-
-                            <div
-                                className="inline-flex items-center gap-2
-                                          rounded-full
-                                          border border-[#1B2B45]
-                                          bg-[#101B30]
-                                          px-4 py-2"
-                            >
-                                <span className="text-sm text-slate-300">
-                                    Member
-                                </span>
-                            </div>
-
-                        </div>
                     </div>
 
                 </div>
