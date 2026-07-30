@@ -9,6 +9,7 @@ import supabase from '../config/supabaseConfig.js';
 
 function DashboardPage(){
     const API = import.meta.env.VITE_API_URL;
+
     const navigate = useNavigate();
 
     // =======================================================================================================
@@ -44,7 +45,7 @@ function DashboardPage(){
         const fetchRegisteredUsers = async () => {
             try {
                 const res = await fetch(
-                    "http://localhost:3000/api/dashboard/registered-users"
+                    `${API}/api/dashboard/registered-user`
                 );
 
                 const data = await res.json();
