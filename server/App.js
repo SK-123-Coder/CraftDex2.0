@@ -25,12 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    "http://localhost:4000",
-    "http://localhost/",
-    "http://localhost",
-    "https//craftdex.in",
-    "www.cratdex.in",
+    "https://craftdex.in/"
   ],
   credentials: true,
 }));
@@ -45,12 +40,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:5173",
-      "http://localhost:4000",
-      "http://localhost/",
-      "http://localhost",
-      "https//craftdex.in",
-      "www.cratdex.in",
+      "https://craftdex.in/"
     ],
     credentials: true,
   },
