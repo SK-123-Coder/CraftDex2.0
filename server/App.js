@@ -27,6 +27,10 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:4000",
+    "http://localhost/",
+    "http://localhost",
+    "https//craftdex.in",
+    "www.cratdex.in",
   ],
   credentials: true,
 }));
@@ -43,6 +47,10 @@ const io = new Server(server, {
     origin: [
       "http://localhost:5173",
       "http://localhost:4000",
+      "http://localhost/",
+      "http://localhost",
+      "https//craftdex.in",
+      "www.cratdex.in",
     ],
     credentials: true,
   },
