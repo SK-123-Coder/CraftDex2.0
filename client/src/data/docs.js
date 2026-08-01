@@ -129,7 +129,7 @@ export const docs = [
       "dexone",
     ],
     folder: "logchart",
-    path: "logchart/IntroductionOfLogchart.md",
+    path: "dexone/IntroductionOfDexone.md",
   },
 
   {
@@ -143,7 +143,7 @@ export const docs = [
       "dexone",
     ],
     folder: "logchart",
-    path: "logchart/TechnologyOfLogchart.md",
+    path: "dexone/TechnologyOfDexone.md",
   },
 
   {
@@ -158,7 +158,7 @@ export const docs = [
       "dexone",
     ],
     folder: "logchart",
-    path: "logchart/UsecaseOfLogchart.md",
+    path: "dexone/UsecaseOfLogchart.md",
   },
 
   // FAQ

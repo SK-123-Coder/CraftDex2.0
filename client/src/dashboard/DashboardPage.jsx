@@ -48,7 +48,6 @@ function DashboardPage(){
                     `${API}/api/dashboard/registered-users`
                 );
 
-                console.log(`${API}/api/dashboard/registered-user`)
 
                 const data = await res.json();
 

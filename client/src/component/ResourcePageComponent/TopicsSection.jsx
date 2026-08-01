@@ -50,15 +50,15 @@ const docsTree = [
             {
                 id:1,
                 title:'Introduction',
-                file:'dexone/IntroductionOfDexOne.md'
+                file:'dexone/IntroductionOfDexone.md'
             },{
                 id:2,
                 title:'Technology',
-                file:'dexone/TechnologyOfDexOne.md'
+                file:'dexone/TechnologyOfDexone.md'
             },{
                 id:3,
                 title:'Usecase',
-                file:'dexone/UsecaseOfDexOne.md'
+                file:'dexone/UsecaseOfDexone.md'
             }
         ]
     },{
